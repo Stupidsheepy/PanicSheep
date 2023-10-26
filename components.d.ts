@@ -7,8 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    EmptyPost: typeof import('./src/components/EmptyPost.vue')['default']
+    MidHeader: typeof import('./src/components/MidHeader.vue')['default']
+    Navigation: typeof import('./src/components/Navigation.vue')['default']
+    PostButton: typeof import('./src/components/PostButton.vue')['default']
+    PostMessage: typeof import('./src/components/PostMessage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SiteLogo: typeof import('./src/components/SiteLogo.vue')['default']
     TheCounter: typeof import('./src/components/TheCounter.vue')['default']
     TheFooter: typeof import('./src/components/TheFooter.vue')['default']
     TheInput: typeof import('./src/components/TheInput.vue')['default']
