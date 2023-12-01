@@ -1,0 +1,18 @@
+$button-color: #ffffff;
+$button-background: #3b82f6;
+$button-font-size: 1.5rem;
+
+.btn {
+    font-size: $button-font-size;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $button-background;
+    color: $button-color;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 150px;
+    font-weight: 700;
+
+}

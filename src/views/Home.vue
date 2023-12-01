@@ -11,9 +11,13 @@
 </script>
 
 <template>
-  <div v-for="i in 5" :key="i">
+  <div v-for="i in 5" :key="i" class="home-container">
     <PostMessage />
   </div>
 </template>
 
-<style  scoped></style>
+<style  scoped lang="scss">
+.home-container {
+  margin-right: 250px;
+}
+</style>
