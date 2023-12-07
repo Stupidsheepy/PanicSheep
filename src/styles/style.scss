@@ -16,3 +16,27 @@ $button-font-size: 1.5rem;
     font-weight: 700;
 
 }
+
+input,
+textarea {
+    text-decoration: none;
+    width: 50%;
+    background: transparent;
+
+}
+
+input {
+    border-bottom: 2px solid grey;
+}
+
+textarea {
+    border: 2px solid grey;
+    border-radius: 10px;
+    height: 140px;
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+}

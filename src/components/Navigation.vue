@@ -1,6 +1,8 @@
 <script setup lang='ts'>
 import { useRouter } from 'vue-router'
-
+import { useUserStore } from '../stores/userStore'
+const userStore = useUserStore()
+const isLogin = userStore.isLogin
 const active = ref('Home')
 const router = useRouter()
 function goPage(pathName: string | undefined): void {
@@ -122,7 +124,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="nav-container">
+  <div class="nav-container" v-if="isLogin">
     <!-- <SiteLogo></SiteLogo> -->
     <div class="site-logo" @click="goPage('Home')">
       <span>🐑PanicSheep</span>
@@ -157,8 +159,25 @@ onUnmounted(() => {
         Settings
       </div>
     </div>
-    <div class="nav-post-btn">
+    <div class="nav-btn">
       <PostButton />
+    </div>
+  </div>
+  <div class="nav-container" v-else>
+    <div class="site-logo" @click="goPage('Home')">
+      <span>🐑PanicSheep</span>
+    </div>
+    <div class="nav-item" :class="{ active: active === 'Explore' }" @click="goPage('Explore')">
+      <div :style="exploreIconStyle" class="nav-item__icon" :class="icons.explore" />
+      <div class="nav-item__words">
+        Explore
+      </div>
+    </div>
+    <div class="nav-btn">
+      <SignUpButton />
+    </div>
+    <div class="nav-btn">
+      <SignInButton />
     </div>
   </div>
 </template>
@@ -206,9 +225,9 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.nav-post-btn {
+.nav-btn {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
 }

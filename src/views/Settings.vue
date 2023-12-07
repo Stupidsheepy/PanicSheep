@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
+// import elMsg from '~/composables/elMsg';
 import { useOssImageStore } from '../stores/ossImageStore'
 import { useUserStore } from '../stores/userStore'
 const userStore = useUserStore()
@@ -9,31 +10,45 @@ const imageUrl = ref("")
 const displayName = ref("")
 const userName = ref("")
 const bio = ref("")
-
+const password = ref("")
+const isShowPassword = ref("password")
+const isShowPasswordIcon = ref("i-mdi-eye-off-outline")
 displayName.value = userStore.displayName
 userName.value = userStore.userName
 bio.value = userStore.bio
+password.value = userStore.password
+imageUrl.value = userStore.userImageUrl
 console.log(ossImageStore.ali_domain)
 const clearInputData = () => {
   displayName.value = ''
   userName.value = ''
   bio.value = ''
   imageUrl.value = ''
+  password.value = ''
 }
-const successSubmit = () => {
-  ElMessage({
-    message: 'Congrats, this is a success message.',
-    type: 'success',
-  })
+const ShowOrHidePwd = () => {
+  if (isShowPassword.value === "password") {
+    isShowPassword.value = "text"
+    isShowPasswordIcon.value = "i-mdi-eye-outline"
+  } else {
+    isShowPassword.value = "password"
+    isShowPasswordIcon.value = "i-mdi-eye-off-outline"
+  }
 }
-const errorSubmit = () => {
-  ElMessage.error('Oops, this is a error message.')
-}
+// const successSubmit = () => {
+//   ElMessage({
+//     message: 'Congrats, this is a success message.',
+//     type: 'success',
+//   })
+// }
+// const errorSubmit = () => {
+//   ElMessage.error('Oops, this is a error message.')
+// }
 let file: any;
 const fileInput = ref(null);
-const backgrondConfig = ref(`url(${imageUrl.value}) no-repeat center center / cover`);
+const backgroundConfig = ref(`url(${imageUrl.value}) no-repeat center center / cover`);
 const unwatch = watch(imageUrl, (newVal) => {
-  backgrondConfig.value = `url(${newVal}) no-repeat center center / cover`
+  backgroundConfig.value = `url(${newVal}) no-repeat center center / cover`
 })
 const handleClick = () => {
   fileInput.value.click();
@@ -101,11 +116,11 @@ const submitInfo = async () => {
     .then(response => {
       console.log(response.data);
       clearInputData()
-      successSubmit()
+      elMsg('success to update profile', 'success')
     })
     .catch(error => {
       console.error(error);
-      errorSubmit()
+      elMsg('fail to update profile', 'error')
     });
 
 }
@@ -117,7 +132,7 @@ onUnmounted(() => {
 <template>
   <div class="setting-container">
     <div class="profile-image">
-      Profile Image
+      Profile Image :
     </div>
 
     <!-- <div class="upload-div" @click="handleClick">
@@ -131,6 +146,13 @@ onUnmounted(() => {
     <input type="text" name="displayname" v-model="displayName" required>
     <div class="content-desc">Username : </div>
     <input type="text" name="username" v-model="userName" autocomplete="off" required>
+    <!-- <PwdInputIcon :placeholder="`enter your password...`"></PwdInputIcon> -->
+    <div class="content-desc">Password : </div>
+    <div class="pwd-input">
+      <input :type="isShowPassword" name="password" v-model="password" autocomplete="off" required>
+      <div class="show-pwd-icon" :class="isShowPasswordIcon" @click="ShowOrHidePwd">
+      </div>
+    </div>
     <div class="content-desc">Bio : </div>
     <textarea name="bio" v-model="bio" placeholder=" please write your goal..." required></textarea>
     <button class="btn save-btn" @click="submitInfo" type="submit">Save</button>
@@ -149,12 +171,13 @@ onUnmounted(() => {
   font-weight: 400;
   height: 100%;
   margin-left: 20px;
+  width: 80%;
 }
 
 .profile-image {}
 
 .setting-avatar {
-  background: v-bind(backgrondConfig);
+  background: v-bind(backgroundConfig);
   border-radius: 50%;
   width: 200px;
   height: 200px;
@@ -167,24 +190,7 @@ onUnmounted(() => {
   background-size: 110%;
 }
 
-input,
-textarea {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  width: 50%;
-}
 
-textarea {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: 160px;
-  resize: none;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-}
 
 // .save-btn {
 
@@ -197,5 +203,16 @@ textarea:focus {
   background-image: url('image-icon.png');
   background-size: cover;
   cursor: pointer;
+}
+
+.show-pwd-icon {
+  position: relative;
+  right: 20px;
+}
+
+.pwd-input {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 </style>

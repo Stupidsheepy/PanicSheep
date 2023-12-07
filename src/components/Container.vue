@@ -22,7 +22,7 @@
                 <!-- <RouterView/> -->
             </div>
         </div>
-        <!-- <Sider class="main-right" v-if="isDesktop"></Sider> -->
+        <Sider class="main-right" v-if="isDesktop"></Sider>
     </main>
 </template>
 <script setup lang="ts">
