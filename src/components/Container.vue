@@ -4,7 +4,8 @@
     <main font-sans text="center gray-700 dark:gray-200">
 
         <div class="main-left main-item" v-if="isDesktop">
-            <Navigation />
+            <!-- <Navigation /> -->
+            <router-view :name="loginOrLogoutNav"></router-view>
             <!-- <button @click="awesome = !awesome">Toggle</button>
 
             <h1 v-if="awesome">Vue is awesome!</h1>
@@ -36,6 +37,19 @@
 // })
 // console.log(props.name)
 // const isDesktop = ref(false)
+import { useUserStore } from '../stores/userStore'
+import { storeToRefs } from 'pinia';
+const userStore = useUserStore()
+// isLogin 使用storeToRefs转换为响应式数据  
+const { isLogin } = storeToRefs(userStore)
+const loginOrLogoutNav = ref("logoutnav")
+watch(isLogin, (newVal) => {
+    if (newVal) {
+        loginOrLogoutNav.value = "loginnav"
+    } else
+        loginOrLogoutNav.value = "logoutnav"
+})
+import { watch, onUnmounted, ref } from 'vue'
 const isDesktop = ref(true)
 isDesktop.value = window.innerWidth > 700 ? true : false
 const marginBottom = ref('0px')

@@ -20,7 +20,7 @@ const unsubscribe = userStore.$subscribe(
     */
     // 我们就可以在此处监听store中值的变化，当变化为某个值的时候，去做一些业务操作之类的
     if (state.isLogin === true) {
-      userStore.userLogin()
+      
     } else {
       userStore.userLogout();
     }

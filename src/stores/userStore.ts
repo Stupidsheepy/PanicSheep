@@ -19,7 +19,7 @@ export const useUserStore = defineStore(
             password.value = User.password
             console.log("userLogin success")
             // refresh window
-            window.location.reload()
+            // window.location.reload()
         }
         const userLogout = () => {
             console.log("userLogout success")
@@ -29,7 +29,7 @@ export const useUserStore = defineStore(
             userEmail.value = ""
             bio.value = ""
             password.value = ""
-            window.location.reload()
+            // window.location.reload()
         }
         return {
             userImageUrl,

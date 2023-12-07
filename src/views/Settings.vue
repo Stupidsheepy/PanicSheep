@@ -1,11 +1,14 @@
 <script setup lang='ts'>
 import axios from 'axios'
+import path from 'path'
+import { storeToRefs } from 'pinia'
 // import { ElMessage } from 'element-plus'
 // import elMsg from '~/composables/elMsg';
 import { useOssImageStore } from '../stores/ossImageStore'
 import { useUserStore } from '../stores/userStore'
 const userStore = useUserStore()
 const ossImageStore = useOssImageStore()
+const { ali_domain } = storeToRefs(ossImageStore)
 const imageUrl = ref("")
 const displayName = ref("")
 const userName = ref("")
@@ -45,10 +48,15 @@ const ShowOrHidePwd = () => {
 //   ElMessage.error('Oops, this is a error message.')
 // }
 let file: any;
+
 const fileInput = ref(null);
-const backgroundConfig = ref(`url(${imageUrl.value}) no-repeat center center / cover`);
+// ??
+// const imagePath = ref(path.join(ali_domain.value, imageUrl.value));
+var backgroundConfig = ref(`url(${imageUrl.value}) no-repeat center center / cover`);
 const unwatch = watch(imageUrl, (newVal) => {
-  backgroundConfig.value = `url(${newVal}) no-repeat center center / cover`
+
+  // imagePath.value = path.join(ali_domain.value, newVal)
+  // backgroundConfig.value = `url(${imagePath.value}) no-repeat center center / cover`
 })
 const handleClick = () => {
   fileInput.value.click();

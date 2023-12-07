@@ -7,7 +7,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      component: () => import('~/views/Home.vue'),
+      components: {
+        default: () => import('~/views/Home.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue')
+      },
       meta: {
         title: 'Home Page',
       },
@@ -15,7 +19,11 @@ const router = createRouter({
     {
       path: '/explore',
       name: 'Explore',
-      component: () => import('~/views/Explore.vue'),
+      components: {
+        default: () => import('~/views/Explore.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue')
+      },
       meta: {
         title: 'Explore Page',
       },
@@ -23,7 +31,11 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'Profile',
-      component: () => import('~/views/Profile.vue'),
+      components: {
+        default: () => import('~/views/Profile.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue')
+      },
       meta: {
         title: 'Profile Page',
       },
@@ -31,7 +43,11 @@ const router = createRouter({
     {
       path: '/notifications',
       name: 'Notifications',
-      component: () => import('~/views/Notifications.vue'),
+      components: {
+        default: () => import('~/views/Notifications.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue')
+      },
       meta: {
         title: 'Notifications Page',
       },
@@ -39,11 +55,27 @@ const router = createRouter({
     {
       path: '/settings',
       name: 'Settings',
-      component: () => import('~/views/Settings.vue'),
+      components: {
+        default: () => import('~/views/Settings.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue')
+      },
       meta: {
         title: 'Settings Page',
       },
     },
+    // {
+    //   path: "/login",
+    //   name: "Login",
+    //   components: {
+    //     default: () => import('~/views/LogoutNav.vue'),
+    //     loginnav: () => import('~/views/LoginNav.vue'),
+    //     logoutnav: () => import('~/views/LogoutNav.vue')
+    //   },
+    //   meta: {
+    //     title: "Login Page"
+    //   }
+    // },
   ],
 })
 

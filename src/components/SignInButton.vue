@@ -179,9 +179,9 @@ onUnmounted(() => {
 }
 
 .email-code-signin {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #3b82f6;
+    color: grey;
     cursor: pointer;
     // justify-self: flex-end;
     align-self: flex-end;
@@ -190,7 +190,8 @@ onUnmounted(() => {
 }
 
 .email-code-signin:hover {
-    text-decoration: underline;
+    // text-decoration: underline;
+    color: dodgerblue;
 }
 
 .login-button {
