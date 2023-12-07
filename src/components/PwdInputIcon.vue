@@ -1,17 +1,16 @@
 <template>
     <div class="pwd-input">
         <div class="content-desc">{{ prop.pwdInputTitle }} : </div>
-        <input :type="isShowPassword" name="password" v-model="password" autocomplete="off" required
+        <input v-if="isPasswordIcon" :type="isShowPassword" name="password" v-model="password" autocomplete="off" required
             :placeholder="prop.placeholder">
-        <div class="show-pwd-icon" v-if="prop.isCodeIcon === false" :class="isShowPasswordIcon" @click="ShowOrHidePwd">
+        <input v-if="!isPasswordIcon" type="text" name="password" v-model="password" autocomplete="off" required
+            :placeholder="prop.placeholder">
+        <div class="show-pwd-icon" :class="isShowPasswordIcon" @click="ShowOrHidePwd" v-if="isPasswordIcon">
         </div>
-        <div class="show-pwd-icon" v-else :class="isShowCodeCheckIcon" @click="isClickCheckIcon"
-            :title="isClickCode ? `请再等一分钟后尝试` : `点击获取验证码`">
-        </div>
+
     </div>
 </template>
 <script setup lang='ts'>
-import axios from 'axios'
 const prop = defineProps({
     placeholder: {
         type: String,
@@ -21,20 +20,16 @@ const prop = defineProps({
         type: String,
         default: "password"
     },
-    isCodeIcon: {
+    isPasswordIcon: {
         type: Boolean,
-        default: false
-    },
-    email: {
-        type: String,
-        default: "2983626014@qq.com"
+        default: true
     }
 })
+
 const password = ref("")
 const isShowPassword = ref("password")
 const isShowPasswordIcon = ref("i-mdi-eye-off-outline")
-const isClickCode = ref(false)
-const isShowCodeCheckIcon = ref("i-mdi-check-circle-outline")
+isShowPassword.value = prop.isPasswordIcon ? "password" : "text"
 const ShowOrHidePwd = () => {
     if (isShowPassword.value === "password") {
         isShowPassword.value = "text"
@@ -44,23 +39,8 @@ const ShowOrHidePwd = () => {
         isShowPasswordIcon.value = "i-mdi-eye-off-outline"
     }
 }
-const isClickCheckIcon = () => {
-    isClickCode.value = true
-    isShowCodeCheckIcon.value = "i-mdi-check-circle"
-    axios.get("/api/getcode", {
-        params: {
-            email: prop.email
-        }
-    }
-    )
-        .then(res => {
-            elMsg('success to get code', 'success')
-            console.log(res.data)
-        })
-        .catch(err => console.log(err))
-}
 defineExpose({
-
+    password,
 })
 </script>
 <style lang='scss' scoped>

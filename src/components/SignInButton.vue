@@ -16,15 +16,17 @@
                         <!-- <span> username: </span><input type="text" name="username"
                             class="login-input" v-model="username" :placeholder="usernamePlaceholder" />
                          -->
-                        <TextInput :placeholder="textInputPlaceholder" :inputTitle="textInputTitle" v-model="username" :username="username"></TextInput>
+                        <TextInput :placeholder="textInputPlaceholder" :inputTitle="textInputTitle"
+                            :isCheckIcon="isCheckIcon" ref="textInput">
+                        </TextInput>
                     </div>
 
                     <div class="login-content__item">
                         <PwdInputIcon :placeholder="passwordPlaceholder" :pwdInputTitle="pwdInputTitle"
-                            :isCodeIcon="isCodeIcon" :email="username"></PwdInputIcon>
+                            :isPasswordIcon="!isEmailCodeSignIn" ref="pwdInput"></PwdInputIcon>
                     </div>
-                    <div class="email-code-signin" @click="isEmailCodeSignIn = !isEmailCodeSignIn">
-                        {{ isEmailCodeSignIn ? 'use email to sign in' : 'use username to sign in' }}
+                    <div class="email-code-signin" @click="toggleSignInMethod()">
+                        {{ !isEmailCodeSignIn ? 'use email to sign in' : 'use username to sign in' }}
                     </div>
                 </div>
                 <div class="btn login-button" @click="toLogin" type="submit">Submit</div>
@@ -37,26 +39,24 @@
 </template>
 <script setup lang='ts'>
 import axios from 'axios';
+interface optionsRef {
+    [key: string]: string
+}
 const isPressLoginbtn = ref(false)
-const username = ref("")
-const password = ref("")
-const textInputPlaceholder = ref("enter username or email")
+// const username = ref("")
+// const password = ref("")
+const textInputPlaceholder = ref("enter username")
 const passwordPlaceholder = ref("enter password")
 const isEmailCodeSignIn = ref(false)
 const textInputTitle = ref("username")
 const pwdInputTitle = ref("password")
-const isCodeIcon = ref(false)
-const toLogin = async () => {
-    axios.post('/api/login', {
-        username: username.value,
-        password: password.value
-    }).then(res => {
-        console.log(res.data)
-        elMsg('success to login', 'success')
-    }).catch(err => {
-        console.log(err)
-        elMsg('fail to login', 'error')
-    })
+const isCheckIcon = ref(false)
+const textInput = ref()
+const pwdInput = ref()
+const options = ref<optionsRef>()
+const toggleSignInMethod = () => {
+    isEmailCodeSignIn.value = !isEmailCodeSignIn.value
+    isCheckIcon.value = !isCheckIcon.value
 }
 const openloginPanel = () => {
     isPressLoginbtn.value = true
@@ -67,14 +67,48 @@ const unwatch = watch(isEmailCodeSignIn, (newVal) => {
         passwordPlaceholder.value = "enter code"
         pwdInputTitle.value = "code"
         textInputTitle.value = "email"
-        isCodeIcon.value = true
+
     } else {
         textInputPlaceholder.value = "enter username"
         passwordPlaceholder.value = "enter password"
         pwdInputTitle.value = "password"
         textInputTitle.value = "username"
-        isCodeIcon.value = false
+        options.value = {
+            username: textInput.value.username,
+            password: pwdInput.value.password
+        }
     }
+})
+
+const createOptions = () => {
+    if (isEmailCodeSignIn.value) {
+        options.value = {
+            email: textInput.value.username,
+            code: pwdInput.value.password
+        }
+    } else {
+        options.value = {
+            username: textInput.value.username,
+            password: pwdInput.value.password
+        }
+    }
+}
+const toLogin = () => {
+    createOptions()
+    const pathUrl = ref('/api/login')
+    pathUrl.value = isEmailCodeSignIn ? "/api/verifycode" : "/api/login"
+    axios.post(pathUrl.value, options.value)
+        .then(res => {
+            console.log(options.value)
+            console.log(res.data)
+            elMsg('success to login', 'success')
+        })
+}
+onMounted(() => {
+    // init()
+})
+onUnmounted(() => {
+    unwatch()
 })
 </script>
 <style lang='scss' scoped>

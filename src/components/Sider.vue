@@ -5,7 +5,7 @@
             <div class="i-mdi-weather-sunny" v-if="!isDark"></div>
         </button> -->
         <el-switch v-model="value1" :active-action-icon="Sunny" :inactive-action-icon="Moon" :active-color="activeColor"
-            :inactive-color="inactiveColor" /> ddddddd<el-switch v-model="isLogin" :active-action-icon="Select"
+            :inactive-color="inactiveColor" /> <el-switch v-model="isLogin" :active-action-icon="Select"
             :inactive-action-icon="CloseBold" :active-color="activeColor" :inactive-color="inactiveColor" />
     </div>
 </template>
