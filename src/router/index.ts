@@ -6,11 +6,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'home',
       components: {
         default: () => import('~/views/Home.vue'),
         loginnav: () => import('~/views/LoginNav.vue'),
-        logoutnav: () => import('~/views/LogoutNav.vue')
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
       },
       meta: {
         title: 'Home Page',
@@ -18,11 +19,12 @@ const router = createRouter({
     },
     {
       path: '/explore',
-      name: 'Explore',
+      name: 'explore',
       components: {
         default: () => import('~/views/Explore.vue'),
         loginnav: () => import('~/views/LoginNav.vue'),
-        logoutnav: () => import('~/views/LogoutNav.vue')
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
       },
       meta: {
         title: 'Explore Page',
@@ -30,11 +32,12 @@ const router = createRouter({
     },
     {
       path: '/profile',
-      name: 'Profile',
+      name: 'profile',
       components: {
         default: () => import('~/views/Profile.vue'),
         loginnav: () => import('~/views/LoginNav.vue'),
-        logoutnav: () => import('~/views/LogoutNav.vue')
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
       },
       meta: {
         title: 'Profile Page',
@@ -42,11 +45,12 @@ const router = createRouter({
     },
     {
       path: '/notifications',
-      name: 'Notifications',
+      name: 'notifications',
       components: {
         default: () => import('~/views/Notifications.vue'),
         loginnav: () => import('~/views/LoginNav.vue'),
-        logoutnav: () => import('~/views/LogoutNav.vue')
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
       },
       meta: {
         title: 'Notifications Page',
@@ -54,11 +58,12 @@ const router = createRouter({
     },
     {
       path: '/settings',
-      name: 'Settings',
+      name: 'settings',
       components: {
         default: () => import('~/views/Settings.vue'),
         loginnav: () => import('~/views/LoginNav.vue'),
-        logoutnav: () => import('~/views/LogoutNav.vue')
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
       },
       meta: {
         title: 'Settings Page',
@@ -70,7 +75,8 @@ const router = createRouter({
     //   components: {
     //     default: () => import('~/views/LogoutNav.vue'),
     //     loginnav: () => import('~/views/LoginNav.vue'),
-    //     logoutnav: () => import('~/views/LogoutNav.vue')
+    //     logoutnav: () => import('~/views/LogoutNav.vue'),
+    //     viploginnav: () => import('~/views/VipLoginNav.vue')
     //   },
     //   meta: {
     //     title: "Login Page"

@@ -4,7 +4,8 @@
         <div class="site-logo" @click="goPage('Home')">
             <span>🐑PanicSheep</span>
         </div>
-        <div class="nav-item" :class="{ active: active === 'Home' }" @click="goPage('Home')">
+        <slot></slot>
+        <!-- <div class="nav-item" :class="{ active: active === 'Home' }" @click="goPage('Home')">
             <div class="nav-item__icon" :class="icons.home" />
             <div class="nav-item__words">
                 Home
@@ -33,7 +34,15 @@
             <div class="nav-item__words">
                 Settings
             </div>
+        </div> -->
+        <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
+            @click="goPage(navItem.name)">
+            <div :class="['nav-item__icon', navItem.icon]" />
+            <div class="nav-item__words">
+                {{ navItem.name }}
+            </div>
         </div>
+
         <div class="nav-btn">
             <PostButton />
         </div>
@@ -41,9 +50,46 @@
 </template>
 <script setup lang='ts'>
 import { useRouter } from 'vue-router'
-const active = ref('Home')
+import { useRoute } from 'vue-router'
+interface NavItems {
+    name: string,
+    icon: string,
+}
+const navItems = ref<NavItems[]>([
+    {
+        name: 'home',
+        icon: 'i-mdi-home-outline',
+    },
+    {
+        name: 'explore',
+        icon: 'i-mdi-magnify',
+    },
+    {
+        name: 'profile',
+        icon: 'i-mdi-account-settings-outline',
+    },
+    {
+        name: 'notifications',
+        icon: 'i-mdi-bell-outline',
+    },
+    {
+        name: 'settings',
+        icon: 'i-mdi-cog-outline',
+    },
+])
+const icons = ref({
+    home: 'i-mdi-home-outline',
+    bell: 'i-mdi-bell-outline',
+    cog: 'i-mdi-cog-outline',
+    accountSettings: 'i-mdi-account-settings-outline',
+    explore: 'i-mdi-magnify',
+})
+const active = ref("")
+// 使用useRoute()获取当前路由信息
+active.value = useRoute().name as string
 const router = useRouter()
 function goPage(pathName: string | undefined): void {
+    active.value = pathName as string
     if (!pathName)
         return
     router.push({
@@ -53,59 +99,55 @@ function goPage(pathName: string | undefined): void {
         },
     })
     // 切换页面时，将active的值改为当前页面的name
-    active.value = pathName
+
 }
-const unwatch = watch(active, (newVal: string) => {
-    console.log(newVal)
-    newVal = newVal.toLowerCase()
-    icons.value.home = 'i-mdi-home-outline'
-    icons.value.accountSettings = 'i-mdi-account-settings-outline'
-    icons.value.bell = 'i-mdi-bell-outline'
-    icons.value.cog = 'i-mdi-cog-outline'
-
-    if (newVal === 'home')
-        icons.value.home = 'i-mdi-home'
-    else
-        icons.value.home = 'i-mdi-home-outline'
-    if (newVal === 'profile')
-        icons.value.accountSettings = 'i-mdi-account-settings'
-    else
-        icons.value.accountSettings = 'i-mdi-account-settings-outline'
-    if (newVal === 'notifications')
-        icons.value.bell = 'i-mdi-bell'
-    else
-        icons.value.bell = 'i-mdi-bell-outline'
-    if (newVal === 'settings')
-        icons.value.cog = 'i-mdi-cog'
-    else
-        icons.value.cog = 'i-mdi-cog-outline'
-
-
+const unwatch = watch(active, (newVal: string, oldVal: string) => {
+    console.log("active: ", active)
+    console.log("oldVal: ", oldVal)
+    console.log("newVal: ", newVal)
+    for (let i = 0; i < navItems.value.length; i++) {
+        if (navItems.value[i].name === 'explore') {
+            continue;
+        }
+        if (navItems.value[i].name === newVal) {
+            navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
+            console.log(navItems.value[i].icon)
+        }
+        if (navItems.value[i].name === oldVal) {
+            navItems.value[i].icon += '-outline'
+            console.log(navItems.value[i].icon)
+        }
+    }
 })
 defineExpose({ active })
 // icons:
 
-const icons = ref({
-    home: 'i-mdi-home-outline',
-    bell: 'i-mdi-bell-outline',
-    cog: 'i-mdi-cog-outline',
-    accountSettings: 'i-mdi-account-settings-outline',
-    explore: 'i-mdi-magnify',
-})
+
 const exploreIconStyle = ref({
     'font-weight': '',
 })
-const iconIsClick = ref({
-    home: false,
-    bell: false,
-    cog: false,
-    accountSettings: false,
-    explore: false,
-})
+// const iconIsClick = ref({
+//     home: false,
+//     bell: false,
+//     cog: false,
+//     accountSettings: false,
+//     explore: false,
+// })
 // 要让iconIsClick的值在改变的同时
 
 // watch(iconIsClick, (newVal) => {
 // })
+onMounted(() => {
+    for (let i = 0; i < navItems.value.length; i++) {
+        if (navItems.value[i].name === 'explore') {
+            continue;
+        }
+        if (navItems.value[i].name === active.value) {
+            navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
+            console.log(navItems.value[i].icon)
+        }
+    }
+})
 onUnmounted(() => {
     unwatch()
 })  
@@ -158,5 +200,9 @@ onUnmounted(() => {
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+.nav-item__words {
+    text-transform: capitalize;
 }
 </style>

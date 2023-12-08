@@ -20,6 +20,7 @@ const route = useRoute()
   font-weight: 700;
   padding: 10px;
   user-select: none;
+  text-transform: capitalize;
 }
 
 .main-mid__header span {
