@@ -43,15 +43,15 @@ const userStore = useUserStore()
 // isLogin 使用storeToRefs转换为响应式数据  
 const { isLogin } = storeToRefs(userStore)
 const loginOrLogoutNav = ref()
-// loginOrLogoutNav.value = isLogin.value ? "loginnav" : "logoutnav"
+loginOrLogoutNav.value = isLogin.value ? "loginnav" : "logoutnav"
 // 创建vip组件
-loginOrLogoutNav.value = "viploginnav"
-// watch(isLogin, (newVal) => {
-//     if (newVal) {
-//         loginOrLogoutNav.value = "loginnav"
-//     } else
-//         loginOrLogoutNav.value = "logoutnav"
-// })
+// loginOrLogoutNav.value = "viploginnav"
+watch(isLogin, (newVal) => {
+    if (newVal) {
+        loginOrLogoutNav.value = "loginnav"
+    } else
+        loginOrLogoutNav.value = "logoutnav"
+})
 import { watch, onUnmounted, ref } from 'vue'
 const isDesktop = ref(true)
 isDesktop.value = window.innerWidth > 700 ? true : false

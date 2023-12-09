@@ -1,6 +1,5 @@
 <script setup lang='ts'>
 import axios from 'axios'
-import path from 'path'
 import { storeToRefs } from 'pinia'
 // import { ElMessage } from 'element-plus'
 // import elMsg from '~/composables/elMsg';
@@ -17,11 +16,11 @@ const password = ref("")
 const isShowPassword = ref("password")
 const isShowPasswordIcon = ref("i-mdi-eye-off-outline")
 displayName.value = userStore.displayName
-userName.value = userStore.userName
+userName.value = userStore.username
 bio.value = userStore.bio
 password.value = userStore.password
-imageUrl.value = userStore.userImageUrl
-console.log(ossImageStore.ali_domain)
+imageUrl.value = userStore.avatar
+console.log(ali_domain.value, imageUrl.value)
 const clearInputData = () => {
   displayName.value = ''
   userName.value = ''
@@ -116,14 +115,9 @@ const submitInfo = async () => {
     "displayname": displayName.value,
     "bio": bio.value,
     "profile_image_uuid": profile_image_uuid
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
   })
     .then(response => {
       console.log(response.data);
-      clearInputData()
       elMsg('success to update profile', 'success')
     })
     .catch(error => {

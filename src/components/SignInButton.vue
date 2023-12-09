@@ -7,7 +7,7 @@
         <div class="loginPanelShadow" @click="isPressLoginbtn = !isPressLoginbtn"></div>
 
         <div class="login-panel">
-            <form class="login-form">
+            <form class="login-form" @keydown.enter="toLogin">
                 <div class="login-content">
                     <div class="login-content__header">
                         Sign In
@@ -30,21 +30,18 @@
                     </div>
                 </div>
                 <div class="btn login-button" @click="toLogin" type="submit">Submit</div>
-
             </form>
-
             <PanelCloseButton @click="isPressLoginbtn = !isPressLoginbtn"></PanelCloseButton>
         </div>
     </div>
 </template>
 <script setup lang='ts'>
 import axios from 'axios';
+import { useUserStore } from '../stores/userStore'
 interface optionsRef {
     [key: string]: string
 }
 const isPressLoginbtn = ref(false)
-// const username = ref("")
-// const password = ref("")
 const textInputPlaceholder = ref("enter username")
 const passwordPlaceholder = ref("enter password")
 const isEmailCodeSignIn = ref(false)
@@ -54,6 +51,8 @@ const isCheckIcon = ref(false)
 const textInput = ref()
 const pwdInput = ref()
 const options = ref<optionsRef>()
+const pathUrl = ref('/api/login')
+const userStore = useUserStore()
 const toggleSignInMethod = () => {
     isEmailCodeSignIn.value = !isEmailCodeSignIn.value
     isCheckIcon.value = !isCheckIcon.value
@@ -67,42 +66,44 @@ const unwatch = watch(isEmailCodeSignIn, (newVal) => {
         passwordPlaceholder.value = "enter code"
         pwdInputTitle.value = "code"
         textInputTitle.value = "email"
-
+        pathUrl.value = "/api/verifycode"
     } else {
         textInputPlaceholder.value = "enter username"
         passwordPlaceholder.value = "enter password"
         pwdInputTitle.value = "password"
         textInputTitle.value = "username"
-        options.value = {
-            username: textInput.value.username,
-            password: pwdInput.value.password
-        }
+        pathUrl.value = "/api/login"
     }
 })
 
-const createOptions = () => {
-    if (isEmailCodeSignIn.value) {
-        options.value = {
+const createOptions = (isEmailCodeSignIn: boolean): optionsRef => {
+    if (isEmailCodeSignIn) {
+        return {
             email: textInput.value.username,
             code: pwdInput.value.password
         }
     } else {
-        options.value = {
+        return {
             username: textInput.value.username,
             password: pwdInput.value.password
         }
     }
 }
-const toLogin = () => {
-    createOptions()
-    const pathUrl = ref('/api/login')
-    pathUrl.value = isEmailCodeSignIn ? "/api/verifycode" : "/api/login"
-    axios.post(pathUrl.value, options.value)
+const toLogin = async () => {
+    options.value = createOptions(isEmailCodeSignIn.value) as optionsRef
+    let userInfo = await axios.post(pathUrl.value, options.value)
         .then(res => {
-            console.log(options.value)
-            console.log(res.data)
-            elMsg('success to login', 'success')
+            console.log(res.data.data)
+            const userInfo = res.data.data
+            if (userInfo !== null) {
+                elMsg('login success', 'success')
+                userStore.userLoginFunc(userInfo)
+            }
+            else
+                elMsg('fail to login', 'error')
+            return userInfo
         })
+    console.log("token: ", userInfo.token)
 }
 onMounted(() => {
     // init()

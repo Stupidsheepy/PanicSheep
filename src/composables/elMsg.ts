@@ -11,6 +11,12 @@ const errorSubmit = (msg: string) => {
     type: 'error',
   })
 }
+const warningSubmit = (msg: string) => {
+  ElMessage({
+    message: msg,
+    type: 'warning',
+  })
+}
 
 const elMsg = (msg: string, type: string) => {
   if (type === 'success') {
@@ -18,6 +24,8 @@ const elMsg = (msg: string, type: string) => {
   }
   else if (type === 'error') {
     errorSubmit(msg)
+  } else if (type === 'warning') {
+    warningSubmit(msg)
   }
 }
 

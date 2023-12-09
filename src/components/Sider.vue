@@ -4,24 +4,38 @@
             <div class="i-mdi-weather-night" v-if="isDark"></div>
             <div class="i-mdi-weather-sunny" v-if="!isDark"></div>
         </button> -->
-        <el-switch v-model="value1" :active-action-icon="Sunny" :inactive-action-icon="Moon" :active-color="activeColor"
-            :inactive-color="inactiveColor" /> <el-switch v-model="isLogin" :active-action-icon="Select"
+        <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Moon" :active-color="activeColor"
+            :inactive-color="inactiveColor" /> <el-switch v-model="switchLogin" :active-action-icon="Select"
             :inactive-action-icon="CloseBold" :active-color="activeColor" :inactive-color="inactiveColor" />
+        <div>{{ userStore.isLogin }}</div>
+        <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
     </div>
 </template>
 <script setup lang='ts'>
 import { Sunny, Moon, Select, CloseBold } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/userStore'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 const userStore = useUserStore()
+const switchLogin = ref(userStore.isLogin)
 const { isLogin } = storeToRefs(userStore)
-const value1 = ref(true)
+const isDark = ref(true)
 const activeColor = ref("#3b82f6")
 const inactiveColor = ref("#364152")
-watch(value1, () => {
-    console.log(value1.value)
+
+watch(isDark, () => {
+    console.log(isDark.value)
     toggleDark()
 })
+// watch(isLogin, (newVal) => {
+//     switchLogin.value = newVal
+// })
+// watch(switchLogin, (newVal) => {
+//     if (newVal) {
+//         userStore.userLoginFunc()
+//     } else {
+//         userStore.userLogoutFunc()
+//     }
+// })
 </script>
 <style lang='scss' scoped>
 .sider {
@@ -29,6 +43,7 @@ watch(value1, () => {
     height: 100%;
     width: 250px;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
