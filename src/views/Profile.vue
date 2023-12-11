@@ -1,22 +1,217 @@
-<script setup lang='ts'>
-
-</script>
 
 <template>
   <div class="container">
-    
+    <!-- 上部分 -->
+    <div class="profile-info" :style="backgroundImage">
+      <!-- change background button -->
+      <button class="btn profile-bg-btn" @click="setProfileCover">
+        设置背景图
+      </button>
+      <!-- <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage"> -->
+      <!-- 头像 -->
+      <img :src="imagePath" class="avatar">
+      <!-- 用户信息 -->
+      <div class="user-info">
+        <div class="display-name">{{ displayName }}</div>
+        <div class="username">username: {{ username }}</div>
+        <div class="bio">
+          Bio: {{ bio }}
+        </div>
+        <div class="user-interactions">
+          <div class="desc">following:</div>
+          <div class="following">0</div>
+          <div class="desc">fans:</div>
+          <div class="fans">0</div>
+          <div class="desc">liked:</div>
+          <div class="get-likes">
+            0
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下部分 -->
+    <div class="tab-bar">
+      <!-- Tab 栏 -->
+      <button class="btn" @click="activeTab = 'tweet'" :class="{ activeTab: activeTab === 'tweet' }">tweets</button>
+      <button @click="activeTab = 'likes'" class="btn" :class="{ activeTab: activeTab === 'likes' }">likes</button>
+      <button @click="activeTab = 'comments'" class="btn"
+        :class="{ activeTab: activeTab === 'comments' }">comments</button>
+      <!-- 其他 Tab -->
+    </div>
+
+    <div class="content">
+      <!-- 根据 Tab 栏的选择显示不同的内容 -->
+      <!-- 笔记内容 -->
+      <div v-if="activeTab === 'tweet'">
+        <!-- 笔记列表 -->
+      </div>
+
+      <!-- 赞过内容 -->
+      <div v-if="activeTab === 'likes'">
+        <!-- 赞过列表 -->
+      </div>
+
+      <!-- 评论内容 -->
+      <div v-if="activeTab === 'comments'">
+        <!-- 评论列表 -->
+      </div>
+    </div>
   </div>
 </template>
+<script setup lang='ts'>
+import { storeToRefs } from 'pinia';
+import { useOssImageStore } from '../stores/ossImageStore';
+import { useUserStore } from '../stores/userStore';
+const userStore = useUserStore();
+const ossImageStore = useOssImageStore();
+const { displayName, username, bio, } = storeToRefs(userStore);
+const activeTab = ref('tweet')
+const imagePath = computed(() => {
+  return ossImageStore.aliDomain + ossImageStore.avatarPrefix + userStore.avatar;
+})
+// const profileCover = ref("profile_cover.jpg")
+const profileCover = computed(() => {
+  return ossImageStore.aliDomain + ossImageStore.profileCoverPrefix + userStore.profileCover;
+})
+const backgroundImage = computed(() => {
+  return `background: url('${profileCover.value}') no-repeat center / cover;`
+})
+let file: any;
+
+const fileInput = ref(null);
+// const handleClick = () => {
+//   if (fileInput.value == null)
+//     return;
+//   fileInput.value.click();
+// };
+
+// const previewImage = (event) => {
+//   file = event.target.files[0];
+//   const reader = new FileReader();
+//   reader.readAsDataURL(file);
+//   reader.onload = () => {
+//     isUploadProfileCover.value = true;
+//     profileCover.value = reader.result;
+//     console.log("preview image: ", reader.result)
+//   }
+// }
+const setProfileCover = () => {
+  console.log("nihao")
+}
+</script>
 
 <style lang='scss' scoped>
-.container{
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.container {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profile-info {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  align-content: space-around;
+  justify-content: center;
+  padding: 10px;
+  gap: 30px;
+
+  position: relative;
+}
+
+.profile-bg-btn {
+  font-size: 0.8rem;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #f7f7f7;
+  opacity: 0.55;
+  color: #666;
+}
+
+.profile-bg-btn:hover {
+  opacity: 1;
+  background-color: #e8e8e8;
+  color: #000;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+}
+
+.avatar:hover {
+  cursor: pointer;
+  border: #3b82f6 1px solid;
+  // background 10% become bigger;
+  background-size: 110%;
+}
+
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  opacity: 0.8;
+
+  .display-name {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .username {
+    color: #666;
+  }
+
+  .user-interactions {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 2.1rem;
-    font-weight: 700;
-    padding: 10px;
-    height: 100%;
+    gap: 10px;
+
+
+    .desc {
+      color: #666;
+    }
+  }
+}
+
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-bottom: #f0f0f0 1px solid;
+
+  button {
+    background-color: #f7f7f7;
+    color: #666;
+  }
+
+  button:hover {
+    background-color: #e8e8e8;
+    color: #000;
+  }
+}
+
+.content {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+button {
+  margin: 0 5px;
+
+  &.activeTab {
+    background-color: #e8e8e8;
+    color: #000;
+  }
 }
 </style>

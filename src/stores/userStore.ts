@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { UserInfo } from '../types/UserInfo'
+import { UserInfo, UserProfile } from '../types/UserInfo'
 export const useUserStore = defineStore(
     'my-user-store',
     () => {
@@ -13,11 +13,13 @@ export const useUserStore = defineStore(
         const token = ref("")
         const vip = ref(false)
         const isLogin = ref(false)
+        const profileCover = ref("")
         const initAnonymousUser = {
             username: "anonymous",
             password: "nihao",
             email: "sheepland.smail.com",
             avatar: "heroimage.jpeg",
+            profileCover: "profile_cover.jpg",
             bio: "dingzheng",
             displayName: "Anonymous",
             token: "114514",
@@ -33,6 +35,7 @@ export const useUserStore = defineStore(
             vip.value = User.vip
             token.value = User.token
             avatar.value = User.avatar
+            profileCover.value = User.profileCover
             isLogin.value = true
             // console.log("userLogin success")
             // refresh window
@@ -51,8 +54,15 @@ export const useUserStore = defineStore(
             token.value = ""
             window.location.reload()
         }
+        const updateUserStore = (User: UserProfile) => {
+            displayName.value = User.displayName
+            bio.value = User.bio
+            password.value = User.password
+            avatar.value = User.avatar
+        }
         return {
             avatar,
+            profileCover,
             username,
             displayName,
             bio,
@@ -62,8 +72,9 @@ export const useUserStore = defineStore(
             token,
             vip,
             userLoginFunc,
-            userLogoutFunc, 
-            initAnonymousUser
+            userLogoutFunc,
+            initAnonymousUser,
+            updateUserStore
         }
     },
     { // 使用默认持久化配置保存

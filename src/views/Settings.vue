@@ -1,135 +1,3 @@
-<script setup lang='ts'>
-import axios from 'axios'
-import { storeToRefs } from 'pinia'
-// import { ElMessage } from 'element-plus'
-// import elMsg from '~/composables/elMsg';
-import { useOssImageStore } from '../stores/ossImageStore'
-import { useUserStore } from '../stores/userStore'
-const userStore = useUserStore()
-const ossImageStore = useOssImageStore()
-const { ali_domain } = storeToRefs(ossImageStore)
-const imageUrl = ref("")
-const displayName = ref("")
-const userName = ref("")
-const bio = ref("")
-const password = ref("")
-const isShowPassword = ref("password")
-const isShowPasswordIcon = ref("i-mdi-eye-off-outline")
-displayName.value = userStore.displayName
-userName.value = userStore.username
-bio.value = userStore.bio
-password.value = userStore.password
-imageUrl.value = userStore.avatar
-console.log(ali_domain.value, imageUrl.value)
-const clearInputData = () => {
-  displayName.value = ''
-  userName.value = ''
-  bio.value = ''
-  imageUrl.value = ''
-  password.value = ''
-}
-const ShowOrHidePwd = () => {
-  if (isShowPassword.value === "password") {
-    isShowPassword.value = "text"
-    isShowPasswordIcon.value = "i-mdi-eye-outline"
-  } else {
-    isShowPassword.value = "password"
-    isShowPasswordIcon.value = "i-mdi-eye-off-outline"
-  }
-}
-// const successSubmit = () => {
-//   ElMessage({
-//     message: 'Congrats, this is a success message.',
-//     type: 'success',
-//   })
-// }
-// const errorSubmit = () => {
-//   ElMessage.error('Oops, this is a error message.')
-// }
-let file: any;
-
-const fileInput = ref(null);
-// ??
-// const imagePath = ref(path.join(ali_domain.value, imageUrl.value));
-var backgroundConfig = ref(`url(${imageUrl.value}) no-repeat center center / cover`);
-const unwatch = watch(imageUrl, (newVal) => {
-
-  // imagePath.value = path.join(ali_domain.value, newVal)
-  // backgroundConfig.value = `url(${imagePath.value}) no-repeat center center / cover`
-})
-const handleClick = () => {
-  fileInput.value.click();
-};
-
-const previewImage = (event) => {
-  file = event.target.files[0];
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-    imageUrl.value = reader.result;
-    console.log(reader.result)
-  }
-}
-
-// const submitImage = (event) => {
-//   const file = event.target.files[0];
-//   const reader = new FileReader();
-//   reader.readAsDataURL(file);
-//   reader.onload = () => {
-//     imageUrl.value = reader.result;
-//     // 将图片数据发送给服务器
-//     const formData = new FormData();
-//     formData.append('file', file);
-//     axios.post('/api/upload', formData, {
-//       headers: { 'Content-Type': 'multipart/form-data' }
-//     }).then(response => {
-//       // 处理服务器响应
-//       console.log(response.data)
-//     }).catch(error => {
-//       // 处理请求错误
-//       console.error(error);
-//     });
-//   };
-// };
-const submitImage = async () => {
-  const formData = new FormData();
-  formData.append('file', file);
-  let ansString = await axios.post('/api/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }).then(response => {
-    // 处理服务器响应
-    console.log(response.data)
-    return response.data
-  }).catch(error => {
-    // 处理请求错误
-    throw new Error(error)
-    // console.error(error);
-  });
-  return ansString
-}
-const submitInfo = async () => {
-  let profile_image_uuid = await submitImage();
-  console.log(displayName.value, userName.value, bio.value)
-  axios.post('/api/setprofile', {
-    "username": userName.value,
-    "displayname": displayName.value,
-    "bio": bio.value,
-    "profile_image_uuid": profile_image_uuid
-  })
-    .then(response => {
-      console.log(response.data);
-      elMsg('success to update profile', 'success')
-    })
-    .catch(error => {
-      console.error(error);
-      elMsg('fail to update profile', 'error')
-    });
-
-}
-onUnmounted(() => {
-  unwatch()
-})
-</script>
 
 <template>
   <div class="setting-container">
@@ -141,13 +9,15 @@ onUnmounted(() => {
       <input type="file" accept="image/*" ref="fileInput" style="display: none" @change="submitImage">
       <img v-if="imageUrl" :src="imageUrl" alt="Image preview">
     </div> -->
-    <div class="setting-avatar" @click="handleClick">
+    <div @click="handleClick">
+      <img :src="imagePath" alt="avatar_image" class="setting-avatar">
       <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage">
     </div>
     <div class="content-desc">Display Name : </div>
     <input type="text" name="displayname" v-model="displayName" required>
     <div class="content-desc">Username : </div>
-    <input type="text" name="username" v-model="userName" autocomplete="off" required>
+    <input type="text" name="username" v-model="userName" autocomplete="off" required disabled
+      style="background-color:#e8e8e8;">
     <!-- <PwdInputIcon :placeholder="`enter your password...`"></PwdInputIcon> -->
     <div class="content-desc">Password : </div>
     <div class="pwd-input">
@@ -160,6 +30,105 @@ onUnmounted(() => {
     <button class="btn save-btn" @click="submitInfo" type="submit">Save</button>
   </div>
 </template>
+<script setup lang='ts'>
+import axios from 'axios'
+import { storeToRefs } from 'pinia'
+// import { ElMessage } from 'element-plus'
+// import elMsg from '~/composables/elMsg';
+import { useOssImageStore } from '../stores/ossImageStore'
+import { useUserStore } from '../stores/userStore'
+import type { UserProfile } from '../types/UserInfo'
+const userStore = useUserStore()
+const ossImageStore = useOssImageStore()
+const { aliDomain,avatarPrefix } = storeToRefs(ossImageStore)
+const imageUrl = ref("")
+const displayName = ref("")
+const userName = ref("")
+const bio = ref("")
+const password = ref("")
+const isShowPassword = ref("password")
+const isShowPasswordIcon = ref("i-mdi-eye-off-outline")
+const isUploadImage = ref(false)
+const imagePath = computed(() => {
+  return !isUploadImage.value ? aliDomain.value + avatarPrefix.value + imageUrl.value : imageUrl.value
+})
+displayName.value = userStore.displayName
+userName.value = userStore.username
+bio.value = userStore.bio
+password.value = userStore.password
+imageUrl.value = userStore.avatar
+console.log(aliDomain.value, imageUrl.value)
+const ShowOrHidePwd = () => {
+  if (isShowPassword.value === "password") {
+    isShowPassword.value = "text"
+    isShowPasswordIcon.value = "i-mdi-eye-outline"
+  } else {
+    isShowPassword.value = "password"
+    isShowPasswordIcon.value = "i-mdi-eye-off-outline"
+  }
+}
+let file: any;
+
+const fileInput = ref(null);
+const handleClick = () => {
+  if (fileInput.value == null)
+    return;
+  fileInput.value.click();
+};
+
+const previewImage = (event) => {
+  file = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    isUploadImage.value = true;
+    imageUrl.value = reader.result;
+    console.log("preview image: ", reader.result)
+  }
+}
+const submitImage = async () => {
+  const formData = new FormData();
+  formData.append('file', file);
+  let imageUUID = await axios.post('/api/upload/avatars', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }).then(response => {
+    // 处理服务器响应
+    console.log(response.data)
+    return response.data.data.outdir
+  }).catch(error => {
+    // 处理请求错误
+    throw new Error(error)
+    // console.error(error);
+  });
+  return imageUUID
+}
+const submitInfo = async () => {
+  // 先传图片，再到这里请求
+  let profile_image_uuid = await submitImage();
+  const optionsData: UserProfile = {
+    "username": userName.value,
+    "displayName": displayName.value,
+    "password": password.value,
+    "bio": bio.value,
+    "avatar": profile_image_uuid
+  }
+  console.log(displayName.value, userName.value, bio.value)
+  axios.post('/api/setprofile', optionsData)
+    .then(response => {
+      console.log(response.data);
+      elMsg('success to update profile', 'success')
+      userStore.updateUserStore(optionsData)
+    })
+    .catch(error => {
+      console.error(error);
+      elMsg('fail to update profile', 'error')
+    });
+
+}
+onMounted(() => {
+  isUploadImage.value = false;
+})
+</script>
 
 <style lang='scss' scoped>
 .setting-container {
@@ -179,7 +148,6 @@ onUnmounted(() => {
 .profile-image {}
 
 .setting-avatar {
-  background: v-bind(backgroundConfig);
   border-radius: 50%;
   width: 200px;
   height: 200px;

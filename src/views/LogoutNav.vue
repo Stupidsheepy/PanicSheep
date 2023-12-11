@@ -3,8 +3,8 @@
         <div class="site-logo" @click="goPage('Home')">
             <span>🐑PanicSheep</span>
         </div>
-        <div class="nav-item" :class="{ active: active === 'Explore' }" @click="goPage('Explore')">
-            <div :style="exploreIconStyle" class="nav-item__icon" :class="icons.explore" />
+        <div class="nav-item" :class="{ active: active === 'explore' }" @click="goPage('explore')">
+            <div class="nav-item__icon i-mdi-magnify" />
             <div class="nav-item__words">
                 Explore
             </div>
@@ -33,60 +33,60 @@ function goPage(pathName: string | undefined): void {
     // 切换页面时，将active的值改为当前页面的name
     active.value = pathName
 }
-const unwatch = watch(active, (newVal: string) => {
-    console.log(newVal)
-    newVal = newVal.toLowerCase()
-    icons.value.home = 'i-mdi-home-outline'
-    icons.value.accountSettings = 'i-mdi-account-settings-outline'
-    icons.value.bell = 'i-mdi-bell-outline'
-    icons.value.cog = 'i-mdi-cog-outline'
+// const unwatch = watch(active, (newVal: string) => {
+//     console.log(newVal)
+//     newVal = newVal.toLowerCase()
+//     icons.value.home = 'i-mdi-home-outline'
+//     icons.value.accountSettings = 'i-mdi-account-settings-outline'
+//     icons.value.bell = 'i-mdi-bell-outline'
+//     icons.value.cog = 'i-mdi-cog-outline'
 
-    if (newVal === 'home')
-        icons.value.home = 'i-mdi-home'
-    else
-        icons.value.home = 'i-mdi-home-outline'
-    if (newVal === 'profile')
-        icons.value.accountSettings = 'i-mdi-account-settings'
-    else
-        icons.value.accountSettings = 'i-mdi-account-settings-outline'
-    if (newVal === 'notifications')
-        icons.value.bell = 'i-mdi-bell'
-    else
-        icons.value.bell = 'i-mdi-bell-outline'
-    if (newVal === 'settings')
-        icons.value.cog = 'i-mdi-cog'
-    else
-        icons.value.cog = 'i-mdi-cog-outline'
+//     if (newVal === 'home')
+//         icons.value.home = 'i-mdi-home'
+//     else
+//         icons.value.home = 'i-mdi-home-outline'
+//     if (newVal === 'profile')
+//         icons.value.accountSettings = 'i-mdi-account-settings'
+//     else
+//         icons.value.accountSettings = 'i-mdi-account-settings-outline'
+//     if (newVal === 'notifications')
+//         icons.value.bell = 'i-mdi-bell'
+//     else
+//         icons.value.bell = 'i-mdi-bell-outline'
+//     if (newVal === 'settings')
+//         icons.value.cog = 'i-mdi-cog'
+//     else
+//         icons.value.cog = 'i-mdi-cog-outline'
 
 
-})
-defineExpose({ active })
-// icons:
+// })
+// defineExpose({ active })
+// // icons:
 
-const icons = ref({
-    home: 'i-mdi-home-outline',
-    bell: 'i-mdi-bell-outline',
-    cog: 'i-mdi-cog-outline',
-    accountSettings: 'i-mdi-account-settings-outline',
-    explore: 'i-mdi-magnify',
-})
-const exploreIconStyle = ref({
-    'font-weight': '',
-})
-const iconIsClick = ref({
-    home: false,
-    bell: false,
-    cog: false,
-    accountSettings: false,
-    explore: false,
-})
-// 要让iconIsClick的值在改变的同时
+// const icons = ref({
+//     home: 'i-mdi-home-outline',
+//     bell: 'i-mdi-bell-outline',
+//     cog: 'i-mdi-cog-outline',
+//     accountSettings: 'i-mdi-account-settings-outline',
+//     explore: 'i-mdi-magnify',
+// })
+// const exploreIconStyle = ref({
+//     'font-weight': '',
+// })
+// const iconIsClick = ref({
+//     home: false,
+//     bell: false,
+//     cog: false,
+//     accountSettings: false,
+//     explore: false,
+// })
+// // 要让iconIsClick的值在改变的同时
 
-watch(iconIsClick, (newVal) => {
-})
-onUnmounted(() => {
-    unwatch()
-})
+// watch(iconIsClick, (newVal) => {
+// })
+// onUnmounted(() => {
+//     unwatch()
+// })
 </script>
 <style lang="scss" scoped>
 .active {

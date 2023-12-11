@@ -95,6 +95,7 @@ const toLogin = async () => {
         .then(res => {
             console.log(res.data.data)
             const userInfo = res.data.data
+            console.log(userInfo);
             if (userInfo !== null) {
                 elMsg('login success', 'success')
                 userStore.userLoginFunc(userInfo)
@@ -103,7 +104,7 @@ const toLogin = async () => {
                 elMsg('fail to login', 'error')
             return userInfo
         })
-    console.log("token: ", userInfo.token)
+    // console.log("token: ", userInfo?.token)
 }
 onMounted(() => {
     // init()

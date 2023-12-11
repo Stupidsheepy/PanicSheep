@@ -8,7 +8,7 @@
             :inactive-color="inactiveColor" /> <el-switch v-model="switchLogin" :active-action-icon="Select"
             :inactive-action-icon="CloseBold" :active-color="activeColor" :inactive-color="inactiveColor" />
         <div>{{ userStore.isLogin }}</div>
-        <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+        <!-- <button @click="userStore.userLogoutFunc" class="btn">Logout</button> -->
     </div>
 </template>
 <script setup lang='ts'>

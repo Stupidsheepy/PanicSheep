@@ -4,37 +4,6 @@
         <div class="site-logo" @click="goPage('Home')">
             <span>🐑PanicSheep</span>
         </div>
-        <slot></slot>
-        <!-- <div class="nav-item" :class="{ active: active === 'Home' }" @click="goPage('Home')">
-            <div class="nav-item__icon" :class="icons.home" />
-            <div class="nav-item__words">
-                Home
-            </div>
-        </div>
-        <div class="nav-item" :class="{ active: active === 'Explore' }" @click="goPage('Explore')">
-            <div :style="exploreIconStyle" class="nav-item__icon" :class="icons.explore" />
-            <div class="nav-item__words">
-                Explore
-            </div>
-        </div>
-        <div class="nav-item" :class="{ active: active === 'Profile' }" @click="goPage('Profile')">
-            <div class="nav-item__icon" :class="icons.accountSettings" />
-            <div class="nav-item__words">
-                Profile
-            </div>
-        </div>
-        <div class="nav-item" :class="{ active: active === 'Notifications' }" @click="goPage('Notifications')">
-            <div class="nav-item__icon" :class="icons.bell" />
-            <div class="nav-item__words">
-                Notifications
-            </div>
-        </div>
-        <div class="nav-item" :class="{ active: active === 'Settings' }" @click="goPage('Settings')">
-            <div class="nav-item__icon" :class="icons.cog" />
-            <div class="nav-item__words">
-                Settings
-            </div>
-        </div> -->
         <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
             @click="goPage(navItem.name)">
             <div :class="['nav-item__icon', navItem.icon]" />
@@ -46,11 +15,22 @@
         <div class="nav-btn">
             <PostButton />
         </div>
+        <div class="nav-profile-btn">
+            <el-popover placement="bottom" title="Settings" :width="200" trigger="click"
+                popper-style="border-radius: 10px;">
+                <template #reference>
+                    <LilProfileBtn></LilProfileBtn>
+                </template>
+                <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+            </el-popover>
+        </div>
     </div>
 </template>
 <script setup lang='ts'>
+import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
+const userStore = useUserStore()
 interface NavItems {
     name: string,
     icon: string,
@@ -77,13 +57,13 @@ const navItems = ref<NavItems[]>([
         icon: 'i-mdi-cog-outline',
     },
 ])
-const icons = ref({
-    home: 'i-mdi-home-outline',
-    bell: 'i-mdi-bell-outline',
-    cog: 'i-mdi-cog-outline',
-    accountSettings: 'i-mdi-account-settings-outline',
-    explore: 'i-mdi-magnify',
-})
+// const icons = ref({
+//     home: 'i-mdi-home-outline',
+//     bell: 'i-mdi-bell-outline',
+//     cog: 'i-mdi-cog-outline',
+//     accountSettings: 'i-mdi-account-settings-outline',
+//     explore: 'i-mdi-magnify',
+// })
 const active = ref("")
 // 使用useRoute()获取当前路由信息
 active.value = useRoute().name as string
@@ -122,10 +102,6 @@ const unwatch = watch(active, (newVal: string, oldVal: string) => {
 defineExpose({ active })
 // icons:
 
-
-const exploreIconStyle = ref({
-    'font-weight': '',
-})
 // const iconIsClick = ref({
 //     home: false,
 //     bell: false,
@@ -164,6 +140,8 @@ onUnmounted(() => {
     align-items: flex-start;
     gap: 25px;
     /* margin-left: 40px; */
+    height: 100%;
+    position: relative;
 }
 
 .nav-item,
@@ -204,5 +182,15 @@ onUnmounted(() => {
 
 .nav-item__words {
     text-transform: capitalize;
+}
+
+.nav-profile-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // align-self: flex-end;
+    position: absolute;
+    bottom: 50px;
 }
 </style>

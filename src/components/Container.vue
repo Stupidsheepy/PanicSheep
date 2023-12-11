@@ -23,7 +23,8 @@
                 <!-- <RouterView/> -->
             </div>
         </div>
-        <Sider class="main-right" v-if="isDesktop"></Sider>
+        <!-- remove sider component -->
+        <Sider class="main-right" v-if="isDesktop && showSiderStore.isShowSider"></Sider>
     </main>
 </template>
 <script setup lang="ts">
@@ -38,8 +39,10 @@
 // console.log(props.name)
 // const isDesktop = ref(false)
 import { useUserStore } from '../stores/userStore'
+import { useShowSiderStore } from '~/stores/showSiderStore';
 import { storeToRefs } from 'pinia';
 const userStore = useUserStore()
+const showSiderStore = useShowSiderStore()
 // isLogin 使用storeToRefs转换为响应式数据  
 const { isLogin } = storeToRefs(userStore)
 const loginOrLogoutNav = ref()
@@ -62,7 +65,6 @@ const unwatch = watch(isDesktop, () => {
     else
         marginBottom.value = '100px'
 })
-
 onUnmounted(() => {
     unwatch()
 })  // 用于解除watch监听

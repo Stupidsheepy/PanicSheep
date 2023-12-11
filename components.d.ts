@@ -11,7 +11,7 @@ declare module 'vue' {
     Container: typeof import('./src/components/Container.vue')['default']
     EmptyPost: typeof import('./src/components/EmptyPost.vue')['default']
     ImageScale: typeof import('./src/components/ImageScale.vue')['default']
-    LoginButton: typeof import('./src/components/LoginButton.vue')['default']
+    LilProfileBtn: typeof import('./src/components/LilProfileBtn.vue')['default']
     MidHeader: typeof import('./src/components/MidHeader.vue')['default']
     Navigation: typeof import('./src/components/Navigation.vue')['default']
     PanelCloseButton: typeof import('./src/components/PanelCloseButton.vue')['default']
@@ -28,5 +28,6 @@ declare module 'vue' {
     TheCounter: typeof import('./src/components/TheCounter.vue')['default']
     TheFooter: typeof import('./src/components/TheFooter.vue')['default']
     TheInput: typeof import('./src/components/TheInput.vue')['default']
+    Tweet: typeof import('./src/components/Tweet.vue')['default']
   }
 }

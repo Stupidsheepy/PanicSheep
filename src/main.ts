@@ -12,7 +12,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import axios from 'axios'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from './stores/userStore'
-
+import { useShowSiderStore } from './stores/showSiderStore'
 // const app = createApp(App)
 // app.use(createPinia().use(piniaPluginPersistedstate))
 const app = createApp(App)
@@ -20,6 +20,7 @@ app.use(createPinia().use(piniaPluginPersistedstate))
 app.use(router)
 app.use(ElementPlus)
 const userStore = useUserStore()
+const showSiderStore = useShowSiderStore()
 const { isLogin } = storeToRefs(userStore)
 // vue router beforeeach
 // router.beforeEach((to, from, next) => {
@@ -49,6 +50,14 @@ router.beforeEach(async (to, from, next) => {
   const whiteList = [
     "home", "explore"
   ]
+  const whiteListForSider = [
+    "home", "explore", "settings",
+  ]
+  if (whiteListForSider.includes(to.name as string)) {
+    showSiderStore.isShowSider = true
+  } else {
+    showSiderStore.isShowSider = false
+  }
   const token = JSON.parse(localStorage.getItem('my-user-store') as string).token
   if ((isLogin.value === false || token === null || token === "" || token === undefined) && to.name !== 'home') {
     if (whiteList.includes(to.name as string))
@@ -75,21 +84,21 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 })
-  // const userToken = JSON.parse(localStorage.getItem('user-token') as string)
-  // if (userToken.token === null) {
-  //   next("/")
-  //   return // 添加 return 语句
-  // } else {
-  //   axios({
-  //     url: "/api/verifytoken",
-  //     method: "GET",
-  //     headers: {
-  //       "Authorization": userToken.token
-  //     }
-  //   }).then((res: any) => {
-  //     console.log(res)
-  //   })
-  //   next()
-  // }
+// const userToken = JSON.parse(localStorage.getItem('user-token') as string)
+// if (userToken.token === null) {
+//   next("/")
+//   return // 添加 return 语句
+// } else {
+//   axios({
+//     url: "/api/verifytoken",
+//     method: "GET",
+//     headers: {
+//       "Authorization": userToken.token
+//     }
+//   }).then((res: any) => {
+//     console.log(res)
+//   })
+//   next()
+// }
 
 app.mount('#app')

@@ -5,6 +5,16 @@ export type UserInfo = {
     password: string
     displayName: string
     vip: boolean
-    bio: string 
+    bio: string
     avatar: string
+    profileCover: string
+}
+
+export type UserProfile = {
+    username: string
+    displayName: string
+    bio: string
+    password: string
+    avatar: string
+    profileCover: string
 }
