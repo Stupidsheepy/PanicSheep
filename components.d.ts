@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BottomNavigation: typeof import('./src/components/BottomNavigation.vue')['default']
     Container: typeof import('./src/components/Container.vue')['default']
+    DeleteUserBtn: typeof import('./src/components/DeleteUserBtn.vue')['default']
     EmptyPost: typeof import('./src/components/EmptyPost.vue')['default']
     ImageScale: typeof import('./src/components/ImageScale.vue')['default']
     LilProfileBtn: typeof import('./src/components/LilProfileBtn.vue')['default']

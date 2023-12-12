@@ -60,12 +60,17 @@
   </div>
 </template>
 <script setup lang='ts'>
-import { storeToRefs } from 'pinia';
 import { useOssImageStore } from '../stores/ossImageStore';
 import { useUserStore } from '../stores/userStore';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 const userStore = useUserStore();
 const ossImageStore = useOssImageStore();
-const { displayName, username, bio, } = storeToRefs(userStore);
+const displayName = ref(userStore.displayName);
+const username = ref(userStore.username);
+const bio = ref(userStore.bio);
+const route = useRoute()
+
 const activeTab = ref('tweet')
 const imagePath = computed(() => {
   return ossImageStore.aliDomain + ossImageStore.avatarPrefix + userStore.avatar;
@@ -77,9 +82,9 @@ const profileCover = computed(() => {
 const backgroundImage = computed(() => {
   return `background: url('${profileCover.value}') no-repeat center / cover;`
 })
-let file: any;
+// let file: any;
 
-const fileInput = ref(null);
+// const fileInput = ref(null);
 // const handleClick = () => {
 //   if (fileInput.value == null)
 //     return;
@@ -99,6 +104,22 @@ const fileInput = ref(null);
 const setProfileCover = () => {
   console.log("nihao")
 }
+
+onBeforeMount(() => {
+  console.log("before mount")
+  console.log(route.query.username)
+  if (route.query.username == null) {
+    return
+  }
+  axios.get(`/api/getprofile?username=${route.query.username}`).then(res => {
+    console.log(res.data.data)
+    displayName.value = res.data.data.displayName
+    username.value = res.data.data.username
+    bio.value = res.data.data.bio
+  }).catch(err => {
+    console.log(err)
+  })
+})
 </script>
 
 <style lang='scss' scoped>

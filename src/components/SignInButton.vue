@@ -91,7 +91,7 @@ const createOptions = (isEmailCodeSignIn: boolean): optionsRef => {
 }
 const toLogin = async () => {
     options.value = createOptions(isEmailCodeSignIn.value) as optionsRef
-    let userInfo = await axios.post(pathUrl.value, options.value)
+    await axios.post(pathUrl.value, options.value)
         .then(res => {
             console.log(res.data.data)
             const userInfo = res.data.data

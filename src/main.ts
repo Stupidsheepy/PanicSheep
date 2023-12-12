@@ -51,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
     "home", "explore"
   ]
   const whiteListForSider = [
-    "home", "explore", "settings",
+    "home", "settings",
   ]
   if (whiteListForSider.includes(to.name as string)) {
     showSiderStore.isShowSider = true

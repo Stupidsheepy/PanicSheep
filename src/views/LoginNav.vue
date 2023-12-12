@@ -16,12 +16,15 @@
             <PostButton />
         </div>
         <div class="nav-profile-btn">
-            <el-popover placement="bottom" title="Settings" :width="200" trigger="click"
-                popper-style="border-radius: 10px;">
+            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 10px;">
                 <template #reference>
                     <LilProfileBtn></LilProfileBtn>
                 </template>
-                <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+                <div class="nav-profile-panel">
+                    <div class="header">Setting</div>
+                    <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+                    <DeleteUserBtn></DeleteUserBtn>
+                </div>
             </el-popover>
         </div>
     </div>
@@ -30,6 +33,7 @@
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
+import DeleteUserBtn from '~/components/DeleteUserBtn.vue';
 const userStore = useUserStore()
 interface NavItems {
     name: string,
@@ -192,5 +196,14 @@ onUnmounted(() => {
     // align-self: flex-end;
     position: absolute;
     bottom: 50px;
+}
+
+.nav-profile-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    height: 200px;
 }
 </style>

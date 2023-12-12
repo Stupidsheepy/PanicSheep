@@ -69,7 +69,17 @@ const router = createRouter({
         title: 'Settings Page',
       },
     },
-
+    {
+      //TODO /user/:username/tweet/:id
+      path: '/tweet/:id',
+      name: 'tweet',
+      components: {
+        default: () => import('~/views/Tweet.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
+      },
+    }
     // {
     //   path: "/login",
     //   name: "Login",
