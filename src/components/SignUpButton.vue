@@ -1,4 +1,3 @@
-
 <template>
     <div class="register-btn btn" @click="openregisterPanel">
         Sign up
@@ -37,7 +36,7 @@
 //TODO 创建用户的时候，需要先检查用户名是否重复，如果重复，需要提示用户
 //TODO @keydown.enter input button
 import axios from 'axios';
-import type { UserInfo } from '~/types/UserInfo';
+// import type { UserInfo } from '~/types/UserInfo';
 // import elMsg from ''
 import { useUserStore } from '../stores/userStore'
 const isPressSignUpBtn = ref(false)
@@ -126,13 +125,13 @@ const setUsernameAndPassword = async () => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    height: 300px;
+    width: 26.667rem;
+    height: 20rem;
     background-color: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border: 0.067rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
     z-index: 50;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0.267rem rgba(0, 0, 0, 0.1);
 }
 
 .register-form {
@@ -140,7 +139,7 @@ const setUsernameAndPassword = async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 3.333rem;
     height: 100%;
     width: 100%;
 }
@@ -155,12 +154,12 @@ const setUsernameAndPassword = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 0.667rem;
     width: 100%;
 }
 
 .register-button {
-    width: 50%;
+    width: 13.333rem;
 }
 
 .registerPanelShadow {

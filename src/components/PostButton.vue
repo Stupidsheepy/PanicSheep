@@ -8,6 +8,15 @@ function openPostPanel() {
 function closePostPanel() {
   isPressPost.value = false
 }
+const active = ref(true)
+const closeIcon = ref('i-carbon-close')
+watch(active, (newVal) => {
+  if (!newVal) {
+    closeIcon.value = 'i-carbon-close-outline'
+  } else {
+    closeIcon.value = 'i-carbon-close'
+  }
+})
 </script>
 
 <template>
@@ -18,12 +27,19 @@ function closePostPanel() {
   <div v-if="isPressPost" class="post-container">
     <div class="postPanelShadow" @click="isPressPost = !isPressPost"></div>
     <div class="postPanel">
-      <div class="panelButton i-carbon-close-outline" @click="closePostPanel" />
+      <div class="panelButton-header">
+        <div class="panelButton" :class="closeIcon" @click="closePostPanel" @mousemove="active = !active"
+          @mouseleave="active = !active" />
+      </div>
+      <PostPanel></PostPanel>
     </div>
+
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import '~/styles/variables';
+
 .post-container {
   position: fixed;
   top: 0;
@@ -34,7 +50,7 @@ function closePostPanel() {
 }
 
 /* .post-btn { */
-  /* font-size: 2rem; */
+/* font-size: 2rem; */
 /* } */
 
 .postPanel {
@@ -42,20 +58,27 @@ function closePostPanel() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1000px;
-  height: 500px;
-  background-color: dodgerblue;
+  width: 500px;
+  min-height: 400px;
+  background-color: #15202b;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   z-index: 50;
 }
 
+.panelButton-header {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
 .panelButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
+  font-size: 2rem;
   cursor: pointer;
+  color: $theme-color;
 }
 
 .postPanelShadow {

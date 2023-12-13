@@ -132,11 +132,11 @@ onUnmounted(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    height: 300px;
+    width: 20rem;
+    height: 15rem;
     background-color: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 1rem;
     z-index: 50;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -146,7 +146,7 @@ onUnmounted(() => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 2.5rem;
     height: 100%;
     width: 100%;
 }
@@ -156,7 +156,7 @@ onUnmounted(() => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
     width: 100%;
 
     span {
@@ -175,9 +175,9 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
     width: 100%;
-    margin-right: 100px;
+    margin-right: 6.25rem;
 }
 
 .email-code-signin {
@@ -187,7 +187,7 @@ onUnmounted(() => {
     cursor: pointer;
     // justify-self: flex-end;
     align-self: flex-end;
-    margin-right: 50px;
+    margin-right: 3.125rem;
     user-select: none;
 }
 

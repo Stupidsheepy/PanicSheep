@@ -1,7 +1,7 @@
 <template>
     <div class="nav-container">
         <!-- <SiteLogo></SiteLogo> -->
-        <div class="site-logo" @click="goPage('Home')">
+        <div class="site-logo" @click="goPage('home')">
             <span>🐑PanicSheep</span>
         </div>
         <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
@@ -16,7 +16,7 @@
             <PostButton />
         </div>
         <div class="nav-profile-btn">
-            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 10px;">
+            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 1rem;">
                 <template #reference>
                     <LilProfileBtn></LilProfileBtn>
                 </template>
@@ -142,8 +142,8 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 25px;
-    /* margin-left: 40px; */
+    gap: 1.5625rem;
+    /* margin-left: 2.5rem; */
     height: 100%;
     position: relative;
 }
@@ -151,13 +151,13 @@ onUnmounted(() => {
 .nav-item,
 .site-logo {
     /* font-size: 2rem; */
-    font-size: 1.5rem;
-    border-radius: 10px;
-    padding: 0 1rem;
+    font-size: 1.875rem;
+    border-radius: 1rem;
+    padding: 0 1.25rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 4px;
+    gap: 0.3125rem;
     /* 用户复制失效 */
     user-select: none;
 }
@@ -195,7 +195,7 @@ onUnmounted(() => {
     align-items: center;
     // align-self: flex-end;
     position: absolute;
-    bottom: 50px;
+    bottom: 3.125rem;
 }
 
 .nav-profile-panel {
@@ -203,7 +203,7 @@ onUnmounted(() => {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    gap: 20px;
-    height: 200px;
+    gap: 1.25rem;
+    height: 12.5rem;
 }
 </style>

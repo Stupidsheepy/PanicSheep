@@ -17,7 +17,9 @@
 </template>
 
 <style  scoped lang="scss">
+@import '~/styles/variables';
+
 .home-container {
-  margin-right: 250px;
+  margin-right: $sider-width;
 }
 </style>

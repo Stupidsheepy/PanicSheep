@@ -98,20 +98,20 @@ function goPage(pathName: string | undefined): void {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 25px;
-    /* margin-left: 40px; */
+    gap: 1.5625rem; /* 25px */
+    /* margin-left: 2.5rem; */ /* 40px */
 }
 
 .nav-item,
 .site-logo {
     /* font-size: 2rem; */
-    font-size: 1.5rem;
-    border-radius: 10px;
-    padding: 0 1rem;
+    font-size: 1.25rem; /* 20px */
+    border-radius: 0.625rem; /* 10px */
+    padding: 0 0.625rem; /* 10px */
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 4px;
+    gap: 0.25rem; /* 4px */
     /* 用户复制失效 */
     user-select: none;
 }

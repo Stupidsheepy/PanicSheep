@@ -71,7 +71,7 @@ const router = createRouter({
     },
     {
       //TODO /user/:username/tweet/:id
-      path: '/tweet/:id',
+      path: '/user/:username/tweet/:tweetId',
       name: 'tweet',
       components: {
         default: () => import('~/views/Tweet.vue'),

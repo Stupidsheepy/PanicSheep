@@ -20,7 +20,8 @@
     </div>
     <div class="search-selected">
       <div class="search-content">
-        <el-radio-group v-model="selectSearch" class="search-radios">
+        <div class="search-content__header">Search for: </div>
+        <el-radio-group v-model="selectSearch" fill="#3b82f6" class="search-radios">
           <el-radio-button label="profile" size="large">profile</el-radio-button>
           <el-radio-button label="tweet" size="large">tweet</el-radio-button>
         </el-radio-group>
@@ -44,7 +45,6 @@ const toSearch = async () => {
 <style lang="scss" scoped>
 .explore-container {
   font-size: 200%;
-  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,11 +143,12 @@ const toSearch = async () => {
 .search-selected {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.625rem;
   /* 10px */
   margin-top: 0.625rem;
   /* 10px */
+  width: 100%;
 }
 
 .search-content {
@@ -158,6 +159,16 @@ const toSearch = async () => {
   /* 10px */
   margin-top: 0.625rem;
   /* 10px */
+}
+
+.search-content__header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .search-radios {

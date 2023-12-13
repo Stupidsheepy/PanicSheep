@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { UserInfo, UserProfile } from '../types/UserInfo'
+import { useOssImageStore } from './ossImageStore'
 export const useUserStore = defineStore(
     'my-user-store',
     () => {
+        const ossImageStore = useOssImageStore()
         const password = ref("")
         const avatar = ref("")
         const username = ref("")
@@ -14,6 +16,9 @@ export const useUserStore = defineStore(
         const vip = ref(false)
         const isLogin = ref(false)
         const profileCover = ref("")
+        const avatarImagePath = computed(() => {
+            return ossImageStore.aliDomain + ossImageStore.avatarPrefix + avatar.value
+        })
         const initAnonymousUser = {
             username: "anonymous",
             password: "nihao",
@@ -74,7 +79,8 @@ export const useUserStore = defineStore(
             userLoginFunc,
             userLogoutFunc,
             initAnonymousUser,
-            updateUserStore
+            updateUserStore,
+            avatarImagePath
         }
     },
     { // 使用默认持久化配置保存

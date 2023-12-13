@@ -1,4 +1,8 @@
 <script setup lang='ts'>
+const props = defineProps({
+  username: String,
+  tweetId: String,
+})
 const icons = ref({
   thumbUp: 'i-mdi-thumb-up-outline',
   reply: 'i-mdi-reply-outline',
@@ -49,10 +53,10 @@ function toggleButtons(buttonName: string) {
       <img class="post-message-avatar" src="https://via.placeholder.com/50x50" alt="Avatar">
       <div class="post-message-user">
         <h3 class="post-message-username">
-          John Doe
+          {{ props.username }}
         </h3>
         <p class="post-message-handle">
-          @johndoe
+          @{{ props.tweetId }}
         </p>
       </div>
     </div>
@@ -87,94 +91,100 @@ function toggleButtons(buttonName: string) {
 
 <style scoped>
 .post-message {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
 }
 
 .post-message-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    color: #4b5170;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  color: #4b5170;
 }
 
 .post-message-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 16px;
 }
 
 .post-message-user {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-message-username {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .post-message-handle {
-    margin: 0;
-    font-size: 1rem;
-    color: #666;
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
 }
 
 .post-message-content {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .post-message-text {
-    margin: 0;
-    font-size: 1.2rem;
-    line-height: 1.5;
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
 }
 
 .post-message-image {
-    width: 100%;
-    margin-top: 16px;
+  margin-top: 16px;
+  border-radius: 10px;
+  width: 500px;
+  height: 250px;
 }
 
 .post-message-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .post-message-actions {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .post-message-action-button {
-    display: flex;
-    align-items: center;
-    margin-right: 16px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .post-message-action-button__icon:hover {
-    color: #000;
+  color: #000;
 }
 
 .post-message-action-button__icon {
-    font-size: 1.5rem;
-    color: #666;
+  font-size: 1.5rem;
+  color: #666;
 }
+
 .post-message-action-count {
-    margin-left: 8px;
-    font-size: 1.2rem;
+  margin-left: 8px;
+  font-size: 1.2rem;
 }
 
 .post-message-timestamp {
-    margin: 0;
-    font-size: 1rem;
-    color: #666;
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
 }
 </style>

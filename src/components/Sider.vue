@@ -4,10 +4,12 @@
             <div class="i-mdi-weather-night" v-if="isDark"></div>
             <div class="i-mdi-weather-sunny" v-if="!isDark"></div>
         </button> -->
-        <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Moon" :active-color="activeColor"
-            :inactive-color="inactiveColor" /> <el-switch v-model="switchLogin" :active-action-icon="Select"
-            :inactive-action-icon="CloseBold" :active-color="activeColor" :inactive-color="inactiveColor" />
-        <div>{{ userStore.isLogin }}</div>
+        <div class="sider-content-01">
+            <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Moon" :active-color="activeColor"
+                :inactive-color="inactiveColor" /> <el-switch v-model="switchLogin" :active-action-icon="Select"
+                :inactive-action-icon="CloseBold" :active-color="activeColor" :inactive-color="inactiveColor" />
+            <div>user logged in : {{ isLogin }}</div>
+        </div>
         <!-- <button @click="userStore.userLogoutFunc" class="btn">Logout</button> -->
     </div>
 </template>
@@ -38,13 +40,27 @@ watch(isDark, () => {
 // })
 </script>
 <style lang='scss' scoped>
+@import '~/styles/variables';
+
 .sider {
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
     height: 100%;
-    width: 250px;
+    // 修改为rem
+    width: $sider-width;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
+}
+
+.sider-content-01 {
+    width: 25rem;
+    height: 25rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 </style>

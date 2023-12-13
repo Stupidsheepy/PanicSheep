@@ -2,6 +2,31 @@ $button-color: #ffffff;
 $button-background: #3b82f6;
 $button-font-size: 1.5rem;
 
+:root {
+    font-size: 0.7em;
+}
+
+
+
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+html.dark {
+    background: #121212;
+}
+
+
+
 .btn {
     font-size: $button-font-size;
     display: flex;
@@ -12,7 +37,7 @@ $button-font-size: 1.5rem;
     border-radius: 20px;
     cursor: pointer;
     height: 2.5rem;
-    width: 150px;
+    width: 15rem;
     font-weight: 700;
 
 }

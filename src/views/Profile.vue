@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <!-- 上部分 -->
@@ -112,12 +111,14 @@ onBeforeMount(() => {
     return
   }
   axios.get(`/api/getprofile?username=${route.query.username}`).then(res => {
-    console.log(res.data.data)
-    displayName.value = res.data.data.displayName
-    username.value = res.data.data.username
-    bio.value = res.data.data.bio
-  }).catch(err => {
-    console.log(err)
+    if (res.data.data === null)
+      elMsg('user not exist', 'error');
+    else {
+      displayName.value = res.data.data.displayName
+      username.value = res.data.data.username
+      bio.value = res.data.data.bio
+      elMsg('find the user', 'success');
+    }
   })
 })
 </script>
@@ -131,13 +132,13 @@ onBeforeMount(() => {
 }
 
 .profile-info {
-  height: 200px;
+  height: 20rem;
   display: flex;
   align-items: center;
   align-content: space-around;
   justify-content: center;
-  padding: 10px;
-  gap: 30px;
+  padding: 1rem;
+  gap: 3rem;
 
   position: relative;
 }
@@ -145,8 +146,8 @@ onBeforeMount(() => {
 .profile-bg-btn {
   font-size: 0.8rem;
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 1rem;
+  top: 1rem;
   background-color: #f7f7f7;
   opacity: 0.55;
   color: #666;
@@ -160,8 +161,8 @@ onBeforeMount(() => {
 
 .avatar {
   border-radius: 50%;
-  width: 160px;
-  height: 160px;
+  width: 16rem;
+  height: 16rem;
 }
 
 .avatar:hover {
@@ -177,11 +178,11 @@ onBeforeMount(() => {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 9px;
-  padding: 10px;
+  gap: 0.9rem;
+  padding: 1rem;
   background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   opacity: 0.8;
 
   .display-name {
@@ -195,7 +196,7 @@ onBeforeMount(() => {
 
   .user-interactions {
     display: flex;
-    gap: 10px;
+    gap: 1rem;
 
 
     .desc {
@@ -208,7 +209,7 @@ onBeforeMount(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 1rem;
   border-bottom: #f0f0f0 1px solid;
 
   button {
@@ -224,11 +225,11 @@ onBeforeMount(() => {
 
 .content {
   flex-grow: 1;
-  padding: 10px;
+  padding: 1rem;
 }
 
 button {
-  margin: 0 5px;
+  margin: 0 0.5rem;
 
   &.activeTab {
     background-color: #e8e8e8;

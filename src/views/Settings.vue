@@ -1,4 +1,3 @@
-
 <template>
   <div class="setting-container">
     <div class="profile-image">
@@ -40,7 +39,7 @@ import { useUserStore } from '../stores/userStore'
 import type { UserProfile } from '../types/UserInfo'
 const userStore = useUserStore()
 const ossImageStore = useOssImageStore()
-const { aliDomain,avatarPrefix } = storeToRefs(ossImageStore)
+const { aliDomain, avatarPrefix } = storeToRefs(ossImageStore)
 const imageUrl = ref("")
 const displayName = ref("")
 const userName = ref("")
@@ -131,17 +130,22 @@ onMounted(() => {
 </script>
 
 <style lang='scss' scoped>
+@import '~/styles/variables';
+
 .setting-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   // align-content: center;
-  gap: 5px;
-  font-size: 1rem;
+  gap: 0.625rem;
+  /* 10px */
+  font-size: 1.1rem;
+  /* 1.1倍放大 */
   font-weight: 400;
   height: 100%;
-  margin-left: 20px;
+  margin-left: 1.25rem;
+  /* 20px */
   width: 80%;
 }
 
@@ -149,8 +153,12 @@ onMounted(() => {
 
 .setting-avatar {
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 13.75rem;
+  /* 220px */
+  /* 1.1倍放大 */
+  height: 13.75rem;
+  /* 220px */
+  /* 1.1倍放大 */
 }
 
 .setting-avatar:hover {
@@ -168,8 +176,12 @@ onMounted(() => {
 // }
 
 .upload-div {
-  width: 100px;
-  height: 100px;
+  width: 6.875rem;
+  /* 110px */
+  /* 1.1倍放大 */
+  height: 6.875rem;
+  /* 110px */
+  /* 1.1倍放大 */
   background-image: url('image-icon.png');
   background-size: cover;
   cursor: pointer;
@@ -177,12 +189,12 @@ onMounted(() => {
 
 .show-pwd-icon {
   position: relative;
-  right: 20px;
+  right: 1.25rem;
+  /* 20px */
 }
 
 .pwd-input {
   display: flex;
   justify-content: flex-start;
   width: 100%;
-}
-</style>
+}</style>

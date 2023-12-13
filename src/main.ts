@@ -48,10 +48,10 @@ const { isLogin } = storeToRefs(userStore)
 
 router.beforeEach(async (to, from, next) => {
   const whiteList = [
-    "home", "explore"
+    "home", "explore", 'tweet'
   ]
   const whiteListForSider = [
-    "home", "settings",
+    "home", "settings", 'tweet'
   ]
   if (whiteListForSider.includes(to.name as string)) {
     showSiderStore.isShowSider = true
