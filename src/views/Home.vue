@@ -11,8 +11,10 @@
 </script>
 
 <template>
-  <div v-for="i in 5" :key="i" class="home-container">
-    <PostMessage />
+  <div class="home-container">
+    <div v-for="i in 10" :key="i">
+      <PostMessage />
+    </div>
   </div>
 </template>
 
@@ -21,5 +23,9 @@
 
 .home-container {
   margin-right: $sider-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 </style>

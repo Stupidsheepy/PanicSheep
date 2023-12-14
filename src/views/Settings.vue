@@ -32,6 +32,7 @@
 <script setup lang='ts'>
 import axios from 'axios'
 import { storeToRefs } from 'pinia'
+import { UploadPath, submitImage } from '~/api/Upload'
 // import { ElMessage } from 'element-plus'
 // import elMsg from '~/composables/elMsg';
 import { useOssImageStore } from '../stores/ossImageStore'
@@ -85,25 +86,20 @@ const previewImage = (event) => {
     console.log("preview image: ", reader.result)
   }
 }
-const submitImage = async () => {
-  const formData = new FormData();
-  formData.append('file', file);
-  let imageUUID = await axios.post('/api/upload/avatars', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }).then(response => {
-    // 处理服务器响应
-    console.log(response.data)
-    return response.data.data.outdir
-  }).catch(error => {
-    // 处理请求错误
-    throw new Error(error)
-    // console.error(error);
-  });
-  return imageUUID
-}
+// const submitImage = async (file: any, pathName : string) : Promise<string> => {
+//   const formData = new FormData();
+//   formData.append('file', file);
+//   return await axios.post(`/api/upload/${pathName}`, formData, {
+//     headers: { 'Content-Type': 'multipart/form-data' }
+//   }).then(response => {
+//     // 处理服务器响应
+//     console.log(response.data)
+//     return response.data.data.outdir
+//   })
+// }
 const submitInfo = async () => {
   // 先传图片，再到这里请求
-  let profile_image_uuid = await submitImage();
+  let profile_image_uuid = await submitImage(file, UploadPath.avatar)
   const optionsData: UserProfile = {
     "username": userName.value,
     "displayName": displayName.value,
@@ -140,7 +136,7 @@ onMounted(() => {
   // align-content: center;
   gap: 0.625rem;
   /* 10px */
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   /* 1.1倍放大 */
   font-weight: 400;
   height: 100%;
@@ -197,4 +193,5 @@ onMounted(() => {
   display: flex;
   justify-content: flex-start;
   width: 100%;
-}</style>
+}
+</style>

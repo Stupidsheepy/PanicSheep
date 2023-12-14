@@ -125,7 +125,7 @@ const setUsernameAndPassword = async () => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 26.667rem;
+    width: 35vw;
     height: 20rem;
     background-color: #ffffff;
     border: 0.067rem solid rgba(0, 0, 0, 0.1);
@@ -142,10 +142,10 @@ const setUsernameAndPassword = async () => {
     gap: 3.333rem;
     height: 100%;
     width: 100%;
+    font-size: 2rem;
 }
 
 .register-header {
-    font-size: 1.5rem;
     font-weight: 600;
 
 }

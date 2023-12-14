@@ -14,15 +14,17 @@
 
         <div class="nav-btn">
             <PostButton />
+            <div class="btn" @click="toTestProxy()">TestProxy</div>
         </div>
         <div class="nav-profile-btn">
-            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 1rem;">
+            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 1rem; width:25rem;">
                 <template #reference>
                     <LilProfileBtn></LilProfileBtn>
                 </template>
                 <div class="nav-profile-panel">
                     <div class="header">Setting</div>
                     <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+                    <button @click="router.push('/profile')" class="btn">MyPage</button>
                     <DeleteUserBtn></DeleteUserBtn>
                 </div>
             </el-popover>
@@ -34,6 +36,12 @@ import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import DeleteUserBtn from '~/components/DeleteUserBtn.vue';
+import TestProxy from '~/api/testProxy';
+
+const toTestProxy = async () => {
+    return await TestProxy()
+
+}
 const userStore = useUserStore()
 interface NavItems {
     name: string,
@@ -180,6 +188,8 @@ onUnmounted(() => {
 .nav-btn {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    gap: 5rem;
     align-items: center;
     width: 100%;
 }
@@ -205,5 +215,6 @@ onUnmounted(() => {
     align-items: center;
     gap: 1.25rem;
     height: 12.5rem;
+    padding: 5px;
 }
 </style>

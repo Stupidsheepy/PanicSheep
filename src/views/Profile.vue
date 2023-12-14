@@ -8,7 +8,7 @@
       </button>
       <!-- <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage"> -->
       <!-- 头像 -->
-      <img :src="imagePath" class="avatar">
+      <img :src="imagePath" class="avatar rotate-image">
       <!-- 用户信息 -->
       <div class="user-info">
         <div class="display-name">{{ displayName }}</div>
@@ -124,6 +124,9 @@ onBeforeMount(() => {
 </script>
 
 <style lang='scss' scoped>
+@import '../styles/rotate.scss';
+
+
 .container {
   border: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;

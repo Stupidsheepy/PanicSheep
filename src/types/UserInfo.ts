@@ -18,3 +18,9 @@ export type UserProfile = {
     avatar: string
     profileCover: string
 }
+
+export type UserForTweet = {
+    username: string
+    displayName: string
+    avatar: string
+}

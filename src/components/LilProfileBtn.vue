@@ -31,6 +31,7 @@ const imagePath = computed(() => {
     align-items: center;
     justify-content: space-between;
     gap: 25px;
+    
 }
 
 .lil-profile-info:hover {

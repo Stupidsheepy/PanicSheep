@@ -1,7 +1,16 @@
 <script setup lang='ts'>
+import type { TweetDetails } from '~/types/TweetInfo'
+import { PostTweetSize } from '~/types/TweetInfo'
 const props = defineProps({
-  username: String,
-  tweetId: String,
+  tweetDetails: {
+    // ????
+    type: Object as PropType<TweetDetails>,
+    required: true,
+  },
+  widthSize: {
+    type: String,
+    default: PostTweetSize.MEDIUM_SIZE,
+  },
 })
 const icons = ref({
   thumbUp: 'i-mdi-thumb-up-outline',
@@ -94,6 +103,8 @@ function toggleButtons(buttonName: string) {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
+  width: v-bind(widthSize);
+  height: 40rem;
 }
 
 .post-message-header {

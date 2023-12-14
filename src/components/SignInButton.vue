@@ -12,24 +12,27 @@
                     <div class="login-content__header">
                         Sign In
                     </div>
-                    <div class="login-content__item">
-                        <!-- <span> username: </span><input type="text" name="username"
-                            class="login-input" v-model="username" :placeholder="usernamePlaceholder" />
-                         -->
-                        <TextInput :placeholder="textInputPlaceholder" :inputTitle="textInputTitle"
-                            :isCheckIcon="isCheckIcon" ref="textInput">
-                        </TextInput>
+                    <div class="login-content__items">
+                        <div class="login-content__item">
+                            <!-- <span> username: </span><input type="text" name="username"
+                                class="login-input" v-model="username" :placeholder="usernamePlaceholder" />
+                             -->
+                            <TextInput :placeholder="textInputPlaceholder" :inputTitle="textInputTitle"
+                                :isCheckIcon="isCheckIcon" ref="textInput">
+                            </TextInput>
+                        </div>
+                        <div class="login-content__item">
+                            <PwdInputIcon :placeholder="passwordPlaceholder" :pwdInputTitle="pwdInputTitle"
+                                :isPasswordIcon="!isEmailCodeSignIn" ref="pwdInput"></PwdInputIcon>
+                        </div>
                     </div>
 
-                    <div class="login-content__item">
-                        <PwdInputIcon :placeholder="passwordPlaceholder" :pwdInputTitle="pwdInputTitle"
-                            :isPasswordIcon="!isEmailCodeSignIn" ref="pwdInput"></PwdInputIcon>
-                    </div>
-                    <div class="email-code-signin" @click="toggleSignInMethod()">
-                        {{ !isEmailCodeSignIn ? 'use email to sign in' : 'use username to sign in' }}
-                    </div>
                 </div>
-                <div class="btn login-button" @click="toLogin" type="submit">Submit</div>
+                <div class="login-bottom">
+                    <div class="btn login-button" @click="toLogin" type="submit">Submit</div>
+                    <div class="btn" @click="toggleSignInMethod()">
+                        {{ !isEmailCodeSignIn ? 'use email to sign in' : 'use username to sign in' }}</div>
+                </div>
             </form>
             <PanelCloseButton @click="isPressLoginbtn = !isPressLoginbtn"></PanelCloseButton>
         </div>
@@ -132,8 +135,8 @@ onUnmounted(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20rem;
-    height: 15rem;
+    width: 60vw;
+    height: 30rem;
     background-color: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
@@ -149,6 +152,7 @@ onUnmounted(() => {
     gap: 2.5rem;
     height: 100%;
     width: 100%;
+    font-size: 2rem;
 }
 
 .login-content {
@@ -167,8 +171,17 @@ onUnmounted(() => {
 }
 
 .login-content__header {
-    font-size: 1.6rem;
     font-weight: 600;
+}
+
+.login-content__items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+
 }
 
 .login-content__item {
@@ -176,8 +189,8 @@ onUnmounted(() => {
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
-    width: 100%;
     margin-right: 6.25rem;
+    width: 70%;
 }
 
 .email-code-signin {
@@ -186,7 +199,7 @@ onUnmounted(() => {
     color: grey;
     cursor: pointer;
     // justify-self: flex-end;
-    align-self: flex-end;
+    align-self: center;
     margin-right: 3.125rem;
     user-select: none;
 }
@@ -197,7 +210,15 @@ onUnmounted(() => {
 }
 
 .login-button {
-    width: 50%;
+    width: 20%;
+}
+
+.login-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
 }
 
 .loginPanelShadow {

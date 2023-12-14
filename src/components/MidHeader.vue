@@ -1,4 +1,6 @@
 <script setup lang='ts'>
+import SwitchSunOrMoon from './SwitchSunOrMoon.vue';
+
 const route = useRoute()
 // console.log(route.path)
 </script>
@@ -7,6 +9,9 @@ const route = useRoute()
   <div class="main-mid__header">
     <span>{{ route.name }}</span>
     <!-- <slot name="sheep"></slot> -->
+    <div class="switch-btn">
+      <SwitchSunOrMoon></SwitchSunOrMoon>
+    </div>
   </div>
 </template>
 
@@ -29,5 +34,10 @@ const route = useRoute()
   /* border-bottom: 4px solid dodgerblue; */
   /* line-height: 1.4; */
   /* 调节bottom-line位置 */
+}
+
+.switch-btn {
+  position: absolute;
+  right: 5%;
 }
 </style>

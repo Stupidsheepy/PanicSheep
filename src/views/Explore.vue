@@ -30,15 +30,24 @@
   </div>
 </template>
 <script setup lang='ts'>
+import RandomTweet from '~/utils/RandomTweet'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const searchText = ref("")
 const selectSearch = ref("profile")
 const toSearch = async () => {
   if (selectSearch.value === "profile") {
-    await router.push({ name: "profile", query: { username: searchText.value } })
+    router.push({ name: "profile", query: { username: searchText.value } })
   } else {
-    await router.push({ name: "tweet", query: { tweet: searchText.value } })
+    const tweetId: string = await RandomTweet(searchText.value).then((res: any) => res.data).then((res: any) => res.data)
+    console.log(tweetId)
+    router.push({
+      name: "tweet",
+      params: {
+        tweetId: tweetId,
+        username: searchText.value
+      }
+    })
   }
 }
 </script>

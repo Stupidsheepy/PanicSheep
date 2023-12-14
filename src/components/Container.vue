@@ -24,7 +24,10 @@
             </div>
         </div>
         <!-- remove sider component -->
-        <Sider class="main-right" v-if="isDesktop && showSiderStore.isShowSider"></Sider>
+        <div class="main-right" v-if="isDesktop && showSiderStore.isShowSider">
+            <Sider class="sider-top"></Sider>
+            <Sider2 class="side-bottom"></Sider2>
+        </div>
     </main>
 </template>
 <script setup lang="ts">
@@ -80,6 +83,7 @@ main {
 
 .main-left {
     border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     margin: 10px 0 0 130px;
     font-size: 1.35rem;
     flex: 0.5;
@@ -101,8 +105,13 @@ main {
     position: absolute;
     right: 0;
     top: 10%;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
 }
+
 
 .main-post-content {
     flex: 1;
@@ -123,6 +132,4 @@ main {
 }
 
 /* 隐藏滚动条 */
-
-
 </style>

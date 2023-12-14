@@ -1,5 +1,5 @@
 <template>
-    <button class="btn" @click="deleteAccount">注销</button>
+    <button class="btn" @click="deleteAccount">Delete Account</button>
 </template>
 <script setup lang='ts'>
 import axios from 'axios';
