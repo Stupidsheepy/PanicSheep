@@ -7,20 +7,19 @@ export type TweetParams = {
 }
 
 export type TweetDetails = {
-    content: string
-    tweetImage: string[]
-    createdAt: string
-    tweetUuid : string
-    likeUsers : UserForTweet[]
-    retweetUsers : UserForTweet[]
-    commentUsers : UserForTweet[]
-    likeCount : number
-    retweetCount : number
-    commentCount : number
-    // 用户自己是否点赞
-    isLiked : boolean
-    childTweet : TweetDetails[] | null
-} & UserForTweet
+    tweetContent: string;
+    tweetImage: string[];
+    createdAt: string;
+    tweetUuid: string;
+    likeUser: string[];
+    retweetUser: string[];
+    commentUser: string[];
+    likeCount: number;
+    retweetCount: number;
+    commentCount: number;
+    isLiked: boolean;
+    childUuid: string | null;
+}& UserForTweet
 
 
 export enum PostTweetSize {

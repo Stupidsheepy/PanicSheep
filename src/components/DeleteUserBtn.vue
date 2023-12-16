@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useUserStore } from '~/stores/userStore';
 const userStore = useUserStore()
 const deleteAccount = () => {
-    axios.get("/api/delete", {
+    axios.get("/delete", {
         params: {
             username: userStore.username
         }

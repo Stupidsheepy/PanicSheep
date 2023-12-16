@@ -12,15 +12,19 @@
                     Sign Up
                 </div>
                 <div class="register-content" v-if="!isGetCode && !isCorrectCode">
-                    <span> Email: </span><input type="email" name="email" class="register-input" v-model="userEmail" />
+                    <div class="register-content__item"><span> Email: </span><input type="email" name="email"
+                            class="register-input" v-model="userEmail" /></div>
                 </div>
                 <div class="register-content" v-else-if="isGetCode && !isCorrectCode">
-                    <span> Code: </span><input type="text" name="code" class="register-input" v-model="userCode" />
+                    <div class="register-content__item"><span> Code: </span><input type="text" name="code" class="register-input" v-model="userCode" /></div>
                 </div>
                 <div class="register-content" v-else>
-                    <span> Username: </span><input type="text" name="username" class="register-input" v-model="username" />
-                    <span> Password: </span><input type="text" name="password" class="register-input"
-                        v-model="userPassword" />
+                    <div class="register-content__item"><span> Username:</span><input type="text" name="username"
+                            class="register-input" v-model="username" /></div>
+                    <div class="register-content__item">
+                        <span> Password:</span><input type="text" name="password" class="register-input"
+                            v-model="userPassword" />
+                    </div>
                 </div>
                 <div class="btn register-button" @click="getCode" v-if="!isGetCode && !isCorrectCode">Submit Email</div>
                 <div class="btn register-button" @click="verifyCode" v-else-if="isGetCode && !isCorrectCode">Submit Code
@@ -53,7 +57,7 @@ function openregisterPanel() {
 }
 
 const getCode = () => {
-    axios.get('/api/getcode', {
+    axios.get('/getcode', {
         params: {
             email: userEmail.value
         }
@@ -67,7 +71,7 @@ const getCode = () => {
     })
 }
 const verifyCode = async () => {
-    await axios.post('/api/verifycode', {
+    await axios.post('/verifycode', {
         email: userEmail.value,
         code: userCode.value
     }).then(res => {
@@ -82,7 +86,7 @@ const verifyCode = async () => {
     })
 }
 const setUsernameAndPassword = async () => {
-    axios.get('/api/set-username-and-password', {
+    axios.get('/set-username-and-password', {
         params: {
             username: username.value,
             password: userPassword.value,
@@ -90,7 +94,7 @@ const setUsernameAndPassword = async () => {
         }
     }).then(async (res) => {
         console.log(res.data)
-        let useInfo = await axios.post("/api/login", {
+        let useInfo = await axios.post("/login", {
             username: username.value,
             password: userPassword.value
         }).then(res => {
@@ -126,7 +130,7 @@ const setUsernameAndPassword = async () => {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 35vw;
-    height: 20rem;
+    height: 35rem;
     background-color: #ffffff;
     border: 0.067rem solid rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
@@ -152,10 +156,26 @@ const setUsernameAndPassword = async () => {
 
 .register-content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.667rem;
+    gap: 3rem;
     width: 100%;
+}
+
+.register-content__item {
+    width: 100%;
+}
+
+.register-content__item span {
+    width: 6.667rem;
+    text-align: right;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.register-input {
+    width: 20rem;
 }
 
 .register-button {

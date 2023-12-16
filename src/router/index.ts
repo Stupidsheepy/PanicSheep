@@ -79,7 +79,7 @@ const router = createRouter({
         logoutnav: () => import('~/views/LogoutNav.vue'),
         viploginnav: () => import('~/views/VipLoginNav.vue')
       },
-    }
+    },
     // {
     //   path: "/login",
     //   name: "Login",

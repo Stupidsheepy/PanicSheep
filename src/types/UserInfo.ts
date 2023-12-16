@@ -15,12 +15,12 @@ export type UserProfile = {
     displayName: string
     bio: string
     password: string
-    avatar: string
+    userAvatar: string
     profileCover: string
 }
 
 export type UserForTweet = {
     username: string
     displayName: string
-    avatar: string
+    userAvatar: string
 }

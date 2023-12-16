@@ -32,7 +32,7 @@
 <script setup lang='ts'>
 import axios from 'axios'
 import { storeToRefs } from 'pinia'
-import { UploadPath, submitImage } from '~/api/Upload'
+import { UploadPath, submitImage } from '~/apis/Upload'
 // import { ElMessage } from 'element-plus'
 // import elMsg from '~/composables/elMsg';
 import { useOssImageStore } from '../stores/ossImageStore'
@@ -89,7 +89,7 @@ const previewImage = (event) => {
 // const submitImage = async (file: any, pathName : string) : Promise<string> => {
 //   const formData = new FormData();
 //   formData.append('file', file);
-//   return await axios.post(`/api/upload/${pathName}`, formData, {
+//   return await axios.post(`/upload/${pathName}`, formData, {
 //     headers: { 'Content-Type': 'multipart/form-data' }
 //   }).then(response => {
 //     // 处理服务器响应
@@ -108,7 +108,7 @@ const submitInfo = async () => {
     "avatar": profile_image_uuid
   }
   console.log(displayName.value, userName.value, bio.value)
-  axios.post('/api/setprofile', optionsData)
+  axios.post('/setprofile', optionsData)
     .then(response => {
       console.log(response.data);
       elMsg('success to update profile', 'success')

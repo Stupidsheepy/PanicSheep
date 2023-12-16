@@ -14,15 +14,11 @@
     </div>
 </template>
 <script setup lang='ts'>
-import { Sunny, Moon, Select, CloseBold } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/userStore'
 import { storeToRefs } from 'pinia'
 const userStore = useUserStore()
-const switchLogin = ref(userStore.isLogin)
-// const { isLogin } = storeToRefs(userStore)
+const { isLogin } = storeToRefs(userStore)
 // const isDark = ref(true)
-const activeColor = ref("#3b82f6")
-const inactiveColor = ref("#364152")
 
 watch(isDark, () => {
     console.log(isDark.value)

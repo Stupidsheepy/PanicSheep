@@ -27,7 +27,7 @@
 import { useUserStore } from '~/stores/userStore'
 import type { TweetParams } from '~/types/TweetInfo'
 import { useRouter } from 'vue-router'
-import { UploadPath, submitImage } from '~/api/Upload'
+import { UploadPath, submitImage } from '~/apis/Upload'
 import axios from 'axios'
 const userStore = useUserStore()
 const router = useRouter()
@@ -108,7 +108,7 @@ const submitTweet = async () => {
         tweetImage: await tweetImageUUID
     }
     console.log(tweetParams)
-    await axios.post('/api/addTweet', tweetParams).then(res => {
+    await axios.post('/add-tweet', tweetParams).then(res => {
         console.log(res.data)
         console.log(res.data.code)
         if (res.data.code == 200) {
@@ -148,7 +148,7 @@ const submitTweet = async () => {
 }
 
 .user-avatar {
-    margin-top: 1.54rem;
+    margin-top: 1rem;
     width: 40px;
     height: 40px;
     border-radius: 100%;
@@ -156,7 +156,7 @@ const submitTweet = async () => {
 }
 
 .post-panel-input {
-    width: 100%;
+    width: 90%;
     min-height: 250px;
     border: none;
     outline: none;

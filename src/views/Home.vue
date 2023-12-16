@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<!-- <script setup lang='ts'>
 // import { useVirtualList } from '@vueuse/core'
 
 // const { list, containerProps, wrapperProps } = useVirtualList(
@@ -28,4 +28,13 @@
   align-items: center;
   gap: 2rem;
 }
-</style>
+</style> -->
+
+<template>
+  <div>
+  </div>
+</template>
+<script setup lang='ts'>
+
+</script>
+<style lang='scss' scoped></style>

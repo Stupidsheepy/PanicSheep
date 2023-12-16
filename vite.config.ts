@@ -60,13 +60,13 @@ export default defineConfig({
   // test: {
   //   environment: 'jsdom',
   // },
-  server:{
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8887',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
+  // server:{
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:8887',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/, '')
+  //     }
+  //   }
+  // }
 })

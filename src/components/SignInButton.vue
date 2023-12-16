@@ -54,7 +54,7 @@ const isCheckIcon = ref(false)
 const textInput = ref()
 const pwdInput = ref()
 const options = ref<optionsRef>()
-const pathUrl = ref('/api/login')
+const pathUrl = ref('/login')
 const userStore = useUserStore()
 const toggleSignInMethod = () => {
     isEmailCodeSignIn.value = !isEmailCodeSignIn.value
@@ -69,13 +69,13 @@ const unwatch = watch(isEmailCodeSignIn, (newVal) => {
         passwordPlaceholder.value = "enter code"
         pwdInputTitle.value = "code"
         textInputTitle.value = "email"
-        pathUrl.value = "/api/verifycode"
+        pathUrl.value = "/verifycode"
     } else {
         textInputPlaceholder.value = "enter username"
         passwordPlaceholder.value = "enter password"
         pwdInputTitle.value = "password"
         textInputTitle.value = "username"
-        pathUrl.value = "/api/login"
+        pathUrl.value = "/login"
     }
 })
 

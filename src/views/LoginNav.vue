@@ -36,7 +36,7 @@ import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import DeleteUserBtn from '~/components/DeleteUserBtn.vue';
-import TestProxy from '~/api/testProxy';
+import TestProxy from '~/apis/testProxy';
 
 const toTestProxy = async () => {
     return await TestProxy()

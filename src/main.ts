@@ -33,7 +33,7 @@ const { isLogin } = storeToRefs(userStore)
 //     next("/")
 //   } else {
 //     axios({
-//       url: "/api/verifytoken",
+//       url: "/verifytoken",
 //       method: "GET",
 //       headers: {
 //         "Authorization": userToken.token
@@ -45,8 +45,9 @@ const { isLogin } = storeToRefs(userStore)
 //   next()
 // })
 
-
 router.beforeEach(async (to, from, next) => {
+  // api.defaults.baseURL = 'https://localhost:8887'; // 更新基础 URL
+  axios.defaults.baseURL = 'http://localhost:8887'; // 设置 baseURL
   const whiteList = [
     "home", "explore", 'tweet'
   ]
@@ -71,7 +72,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     else {
       console.log("nihao verifytoken: ", token)
-      axios.get('/api/verifytoken', {
+      axios.get('/verifytoken', {
         headers: {
           "Authorization": token
         }
@@ -90,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
 //   return // 添加 return 语句
 // } else {
 //   axios({
-//     url: "/api/verifytoken",
+//     url: "/verifytoken",
 //     method: "GET",
 //     headers: {
 //       "Authorization": userToken.token

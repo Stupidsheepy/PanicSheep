@@ -110,7 +110,7 @@ onBeforeMount(() => {
   if (route.query.username == null) {
     return
   }
-  axios.get(`/api/getprofile?username=${route.query.username}`).then(res => {
+  axios.get(`/getprofile?username=${route.query.username}`).then(res => {
     if (res.data.data === null)
       elMsg('user not exist', 'error');
     else {

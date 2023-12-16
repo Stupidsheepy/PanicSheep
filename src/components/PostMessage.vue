@@ -4,7 +4,8 @@ import { PostTweetSize } from '~/types/TweetInfo'
 const props = defineProps({
   tweetDetails: {
     // ????
-    type: Object as PropType<TweetDetails>,
+    type: Object as PropType<TweetDetails> | null,
+    default: null, // 设置默认值为空对象
     required: true,
   },
   widthSize: {
@@ -59,22 +60,30 @@ function toggleButtons(buttonName: string) {
 <template>
   <div class="post-message">
     <div class="post-message-header">
-      <img class="post-message-avatar" src="https://via.placeholder.com/50x50" alt="Avatar">
+      <img class="post-message-avatar" :src="'/' + props.tweetDetails.userAvatar" alt="Avatar">
       <div class="post-message-user">
-        <h3 class="post-message-username">
-          {{ props.username }}
+        <h3 class="post-message-display-name">
+          {{ props.tweetDetails.displayName }}
         </h3>
-        <p class="post-message-handle">
-          @{{ props.tweetId }}
+        <p class="post-message-username">
+          @{{ props.tweetDetails.username }}
         </p>
       </div>
     </div>
     <div class="post-message-content">
       <p class="post-message-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, sapien vel
-        bibendum bibendum, velit sapien bibendum sapien, vel bibendum sapien velit.
+        {{ props.tweetDetails.tweetContent }}
       </p>
-      <img class="post-message-image" src="https://via.placeholder.com/500x250" alt="Post Image">
+      <div class="swiper-container">
+        <el-carousel trigger="click" height="250px" :autoplay="false" :loop="false">
+          <el-carousel-item v-for="(item, index) in props.tweetDetails.tweetImage" :key="index">
+            <img :src="'/' + item" alt="Post Image"> </el-carousel-item> </el-carousel>
+      </div>
+      <!-- <el-carousel :loop="false" height="300px">
+        <el-carousel-item v-for="(item, index) in props.tweetDetails.tweetImage" :key="index">
+          <img class="post-message-image" :src="'/' + item" alt="Post Image"> </el-carousel-item>
+      </el-carousel> -->
+
     </div>
     <div class="post-message-footer">
       <p class="post-message-timestamp">
@@ -126,13 +135,13 @@ function toggleButtons(buttonName: string) {
   flex-direction: column;
 }
 
-.post-message-username {
+.post-message-display-name {
   margin: 0;
   font-size: 1.2rem;
   font-weight: bold;
 }
 
-.post-message-handle {
+.post-message-username {
   margin: 0;
   font-size: 1rem;
   color: #666;
@@ -153,8 +162,7 @@ function toggleButtons(buttonName: string) {
 }
 
 .post-message-image {
-  margin-top: 16px;
-  border-radius: 10px;
+
   width: 500px;
   height: 250px;
 }
@@ -197,5 +205,29 @@ function toggleButtons(buttonName: string) {
   margin: 0;
   font-size: 1rem;
   color: #666;
+}
+
+.swiper-container {
+  overflow: hidden;
+  margin-top: 16px;
+  border-radius: 10px;
+  width: 500px;
+  height: 250px;
+}
+
+.el-carousel__item h3 {
+  display: flex;
+  color: #475669;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>

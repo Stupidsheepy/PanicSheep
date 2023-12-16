@@ -3,10 +3,12 @@
         <div class="site-logo" @click="goPage('Home')">
             <span>🐑PanicSheep</span>
         </div>
-        <div class="nav-item" :class="{ active: active === 'explore' }" @click="goPage('explore')">
-            <div class="nav-item__icon i-mdi-magnify" />
+
+        <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
+            @click="goPage(navItem.name)">
+            <div :class="['nav-item__icon', navItem.icon]" />
             <div class="nav-item__words">
-                Explore
+                {{ navItem.name }}
             </div>
         </div>
         <div class="nav-btn">
@@ -33,6 +35,20 @@ function goPage(pathName: string | undefined): void {
     // 切换页面时，将active的值改为当前页面的name
     active.value = pathName
 }
+interface NavItems {
+    name: string,
+    icon: string,
+}
+const navItems = ref<NavItems[]>([
+    {
+        name: 'home',
+        icon: 'i-mdi-home-outline',
+    },
+    {
+        name: 'explore',
+        icon: 'i-mdi-magnify',
+    },
+])
 // const unwatch = watch(active, (newVal: string) => {
 //     console.log(newVal)
 //     newVal = newVal.toLowerCase()
@@ -98,20 +114,26 @@ function goPage(pathName: string | undefined): void {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5625rem; /* 25px */
-    /* margin-left: 2.5rem; */ /* 40px */
+    gap: 1.5625rem;
+    /* 25px */
+    /* margin-left: 2.5rem; */
+    /* 40px */
 }
 
 .nav-item,
 .site-logo {
     /* font-size: 2rem; */
-    font-size: 1.25rem; /* 20px */
-    border-radius: 0.625rem; /* 10px */
-    padding: 0 0.625rem; /* 10px */
+    font-size: 2rem;
+    /* 20px */
+    border-radius: 0.625rem;
+    /* 10px */
+    padding: 0 0.625rem;
+    /* 10px */
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 0.25rem; /* 4px */
+    gap: 0.25rem;
+    /* 4px */
     /* 用户复制失效 */
     user-select: none;
 }

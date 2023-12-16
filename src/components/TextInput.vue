@@ -31,7 +31,7 @@ const isShowCodeCheckIcon = ref("i-mdi-check-circle-outline")
 const isClickCheckIcon = () => {
     isClickCode.value = true
     isShowCodeCheckIcon.value = "i-mdi-check-circle"
-    axios.get("/api/getcode", {
+    axios.get("/getcode", {
         params: {
             email: username.value
         }

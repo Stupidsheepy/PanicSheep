@@ -19,6 +19,7 @@ declare module 'vue' {
     PanelCloseButton: typeof import('./src/components/PanelCloseButton.vue')['default']
     PostButton: typeof import('./src/components/PostButton.vue')['default']
     PostMessage: typeof import('./src/components/PostMessage.vue')['default']
+    PostMessageSkeleton: typeof import('./src/components/PostMessageSkeleton.vue')['default']
     PostPanel: typeof import('./src/components/PostPanel.vue')['default']
     PwdInputIcon: typeof import('./src/components/PwdInputIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -33,5 +34,6 @@ declare module 'vue' {
     TheCounter: typeof import('./src/components/TheCounter.vue')['default']
     TheFooter: typeof import('./src/components/TheFooter.vue')['default']
     TheInput: typeof import('./src/components/TheInput.vue')['default']
+    Upscayl: typeof import('./src/components/Upscayl.vue')['default']
   }
 }
