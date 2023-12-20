@@ -1,5 +1,7 @@
 import axios from "axios";
-const TestProxy = async () => {
-    return axios.get("http://localhost:8887/proxy").then(res => res.data)
+const testProxy = async () => {
+  return await axios.get("http://localhost:8887/proxy").then(res => res.data).then(() => {
+    elMsg("success connect to the backend", "success")
+  })
 }
-export default TestProxy
+export default testProxy

@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import SwitchSunOrMoon from './SwitchSunOrMoon.vue';
-
+import textProxy from '~/apis/TestProxy'
 const route = useRoute()
 // console.log(route.path)
 </script>
@@ -10,6 +10,7 @@ const route = useRoute()
     <span>{{ route.name }}</span>
     <!-- <slot name="sheep"></slot> -->
     <div class="switch-btn">
+      <div class="proxy-btn" @click="textProxy()">TestProxy</div>
       <SwitchSunOrMoon></SwitchSunOrMoon>
     </div>
   </div>
@@ -37,7 +38,23 @@ const route = useRoute()
 }
 
 .switch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   position: absolute;
   right: 5%;
+}
+
+.proxy-btn {
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  user-select: none;
+  text-transform: capitalize;
 }
 </style>

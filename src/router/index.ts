@@ -52,6 +52,14 @@ const router = createRouter({
         logoutnav: () => import('~/views/LogoutNav.vue'),
         viploginnav: () => import('~/views/VipLoginNav.vue')
       },
+      // TODO
+      // children: [
+      //   {
+      //     path : '',
+      //     name : 'tweet',
+      //     component : () => import('~/views/Tweet.vue'),
+      //   }
+      // ]
       meta: {
         title: 'Notifications Page',
       },

@@ -73,16 +73,16 @@ const fileInput = ref(null);
 const handleClick = () => {
   if (fileInput.value == null)
     return;
-  fileInput.value.click();
+  (fileInput as any).value.click();
 };
 
-const previewImage = (event) => {
+const previewImage = (event: any) => {
   file = event.target.files[0];
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = () => {
     isUploadImage.value = true;
-    imageUrl.value = reader.result;
+    (imageUrl as any).value = reader.result;
     console.log("preview image: ", reader.result)
   }
 }
@@ -100,15 +100,16 @@ const previewImage = (event) => {
 const submitInfo = async () => {
   // 先传图片，再到这里请求
   let profile_image_uuid = await submitImage(file, UploadPath.avatar)
-  const optionsData: UserProfile = {
+  const optionsData = {
     "username": userName.value,
     "displayName": displayName.value,
     "password": password.value,
     "bio": bio.value,
-    "avatar": profile_image_uuid
+    "avatar": profile_image_uuid,
+    "profileCover": useUserStore().profileCover
   }
   console.log(displayName.value, userName.value, bio.value)
-  axios.post('/setprofile', optionsData)
+  axios.post('/set-profile', optionsData)
     .then(response => {
       console.log(response.data);
       elMsg('success to update profile', 'success')
@@ -145,7 +146,7 @@ onMounted(() => {
   width: 80%;
 }
 
-.profile-image {}
+// .profile-image {}
 
 .setting-avatar {
   border-radius: 50%;

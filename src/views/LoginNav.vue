@@ -1,73 +1,69 @@
 <template>
-    <div class="nav-container">
-        <!-- <SiteLogo></SiteLogo> -->
-        <div class="site-logo" @click="goPage('home')">
-            <span>🐑PanicSheep</span>
-        </div>
-        <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
-            @click="goPage(navItem.name)">
-            <div :class="['nav-item__icon', navItem.icon]" />
-            <div class="nav-item__words">
-                {{ navItem.name }}
-            </div>
-        </div>
-
-        <div class="nav-btn">
-            <PostButton />
-            <div class="btn" @click="toTestProxy()">TestProxy</div>
-        </div>
-        <div class="nav-profile-btn">
-            <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 1rem; width:25rem;">
-                <template #reference>
-                    <LilProfileBtn></LilProfileBtn>
-                </template>
-                <div class="nav-profile-panel">
-                    <div class="header">Setting</div>
-                    <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
-                    <button @click="router.push('/profile')" class="btn">MyPage</button>
-                    <DeleteUserBtn></DeleteUserBtn>
-                </div>
-            </el-popover>
-        </div>
+  <div class="nav-container">
+    <!-- <SiteLogo></SiteLogo> -->
+    <div class="site-logo" @click="goPage('home')">
+      <span>🐑PanicSheep</span>
     </div>
+    <div v-for="navItem in navItems" :key="navItem.name" class="nav-item" :class="{ active: active === navItem.name }"
+      @click="goPage(navItem.name)">
+      <div :class="['nav-item__icon', navItem.icon]" />
+      <div class="nav-item__words">
+        {{ navItem.name }}
+      </div>
+    </div>
+
+    <div class="nav-btn">
+      <PostButton />
+    </div>
+    <div class="nav-profile-btn">
+      <el-popover placement="bottom" :width="200" trigger="click" popper-style="border-radius: 1rem; width:25rem;">
+        <template #reference>
+          <LilProfileBtn></LilProfileBtn>
+        </template>
+        <div class="nav-profile-panel">
+          <div class="header">Setting</div>
+          <button @click="router.push('/profile')" class="btn">MyPage</button>
+
+          <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
+
+          <DeleteUserBtn></DeleteUserBtn>
+        </div>
+      </el-popover>
+    </div>
+  </div>
 </template>
 <script setup lang='ts'>
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import DeleteUserBtn from '~/components/DeleteUserBtn.vue';
-import TestProxy from '~/apis/testProxy';
 
-const toTestProxy = async () => {
-    return await TestProxy()
-
-}
 const userStore = useUserStore()
 interface NavItems {
-    name: string,
-    icon: string,
+  name: string,
+  icon: string,
 }
 const navItems = ref<NavItems[]>([
-    {
-        name: 'home',
-        icon: 'i-mdi-home-outline',
-    },
-    {
-        name: 'explore',
-        icon: 'i-mdi-magnify',
-    },
-    {
-        name: 'profile',
-        icon: 'i-mdi-account-settings-outline',
-    },
-    {
-        name: 'notifications',
-        icon: 'i-mdi-bell-outline',
-    },
-    {
-        name: 'settings',
-        icon: 'i-mdi-cog-outline',
-    },
+  {
+    name: 'home',
+    icon: 'i-mdi-home-outline',
+  },
+  {
+    name: 'explore',
+    icon: 'i-mdi-magnify',
+  },
+  {
+    name: 'profile',
+    icon: 'i-mdi-account-settings-outline',
+  },
+  {
+    name: 'notifications',
+    icon: 'i-mdi-bell-outline',
+  },
+  {
+    name: 'settings',
+    icon: 'i-mdi-cog-outline',
+  },
 ])
 // const icons = ref({
 //     home: 'i-mdi-home-outline',
@@ -81,35 +77,35 @@ const active = ref("")
 active.value = useRoute().name as string
 const router = useRouter()
 function goPage(pathName: string | undefined): void {
-    active.value = pathName as string
-    if (!pathName)
-        return
-    router.push({
-        name: pathName,
-        params: {
-            pathname: pathName,
-        },
-    })
-    // 切换页面时，将active的值改为当前页面的name
+  active.value = pathName as string
+  if (!pathName)
+    return
+  router.push({
+    name: pathName,
+    params: {
+      pathname: pathName,
+    },
+  })
+  // 切换页面时，将active的值改为当前页面的name
 
 }
 const unwatch = watch(active, (newVal: string, oldVal: string) => {
-    console.log("active: ", active)
-    console.log("oldVal: ", oldVal)
-    console.log("newVal: ", newVal)
-    for (let i = 0; i < navItems.value.length; i++) {
-        if (navItems.value[i].name === 'explore') {
-            continue;
-        }
-        if (navItems.value[i].name === newVal) {
-            navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
-            console.log(navItems.value[i].icon)
-        }
-        if (navItems.value[i].name === oldVal) {
-            navItems.value[i].icon += '-outline'
-            console.log(navItems.value[i].icon)
-        }
+  console.log("active: ", active)
+  console.log("oldVal: ", oldVal)
+  console.log("newVal: ", newVal)
+  for (let i = 0; i < navItems.value.length; i++) {
+    if (navItems.value[i].name === 'explore') {
+      continue;
     }
+    if (navItems.value[i].name === newVal) {
+      navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
+      console.log(navItems.value[i].icon)
+    }
+    if (navItems.value[i].name === oldVal) {
+      navItems.value[i].icon += '-outline'
+      console.log(navItems.value[i].icon)
+    }
+  }
 })
 defineExpose({ active })
 // icons:
@@ -126,95 +122,95 @@ defineExpose({ active })
 // watch(iconIsClick, (newVal) => {
 // })
 onMounted(() => {
-    for (let i = 0; i < navItems.value.length; i++) {
-        if (navItems.value[i].name === 'explore') {
-            continue;
-        }
-        if (navItems.value[i].name === active.value) {
-            navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
-            console.log(navItems.value[i].icon)
-        }
+  for (let i = 0; i < navItems.value.length; i++) {
+    if (navItems.value[i].name === 'explore') {
+      continue;
     }
+    if (navItems.value[i].name === active.value) {
+      navItems.value[i].icon = navItems.value[i].icon.replace('-outline', '')
+      console.log(navItems.value[i].icon)
+    }
+  }
 })
 onUnmounted(() => {
-    unwatch()
-})  
+  unwatch()
+})
 </script>
 <style lang="scss" scoped>
 .active {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 .nav-container {
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5625rem;
-    /* margin-left: 2.5rem; */
-    height: 100%;
-    position: relative;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5625rem;
+  /* margin-left: 2.5rem; */
+  height: 100%;
+  position: relative;
 }
 
 .nav-item,
 .site-logo {
-    /* font-size: 2rem; */
-    font-size: 1.875rem;
-    border-radius: 1rem;
-    padding: 0 1.25rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 0.3125rem;
-    /* 用户复制失效 */
-    user-select: none;
+  /* font-size: 2rem; */
+  font-size: 1.875rem;
+  border-radius: 1rem;
+  padding: 0 1.25rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.3125rem;
+  /* 用户复制失效 */
+  user-select: none;
 }
 
 .site-logo:hover {
-    cursor: pointer;
-    font-weight: 800;
+  cursor: pointer;
+  font-weight: 800;
 }
 
 .nav-item__icon:hover {
-    color: black;
+  color: black;
 }
 
 .nav-item:hover {
-    background-color: #e8e8e8;
-    font-weight: 800;
-    cursor: pointer;
+  background-color: #e8e8e8;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .nav-btn {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 5rem;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5rem;
+  align-items: center;
+  width: 100%;
 }
 
 .nav-item__words {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 .nav-profile-btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // align-self: flex-end;
-    position: absolute;
-    bottom: 3.125rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // align-self: flex-end;
+  position: absolute;
+  bottom: 3.125rem;
 }
 
 .nav-profile-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 1.25rem;
-    height: 12.5rem;
-    padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.25rem;
+  height: 12.5rem;
+  padding: 5px;
 }
 </style>

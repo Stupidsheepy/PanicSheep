@@ -12,7 +12,8 @@
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
-        <input placeholder="enter some keywords" class="explore-input-field" v-model="searchText">
+        <input :placeholder="`enter the username`" class="explore-input-field" v-model="searchText"
+          @keydown.enter="toSearch">
       </div>
       <button class="explore-button" @click="toSearch">
         Search
@@ -23,7 +24,7 @@
         <div class="search-content__header">Search for: </div>
         <el-radio-group v-model="selectSearch" fill="#3b82f6" class="search-radios">
           <el-radio-button label="profile" size="large">profile</el-radio-button>
-          <el-radio-button label="tweet" size="large">tweet</el-radio-button>
+          <el-radio-button label="tweet" size="large">randTweet</el-radio-button>
         </el-radio-group>
       </div>
     </div>

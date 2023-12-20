@@ -59,7 +59,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     showSiderStore.isShowSider = false
   }
-  const token = JSON.parse(localStorage.getItem('my-user-store') as string).token
+  const token = JSON.parse(localStorage.getItem('my-user-store') as string)?.token
   if ((isLogin.value === false || token === null || token === "" || token === undefined) && to.name !== 'home') {
     if (whiteList.includes(to.name as string))
       next()

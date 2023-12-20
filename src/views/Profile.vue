@@ -56,6 +56,9 @@
         <!-- 评论列表 -->
       </div>
     </div>
+    <div class="active-container">
+
+    </div>
   </div>
 </template>
 <script setup lang='ts'>
@@ -71,9 +74,6 @@ const bio = ref(userStore.bio);
 const route = useRoute()
 
 const activeTab = ref('tweet')
-const imagePath = computed(() => {
-  return ossImageStore.aliDomain + ossImageStore.avatarPrefix + userStore.avatar;
-})
 // const profileCover = ref("profile_cover.jpg")
 const profileCover = computed(() => {
   return ossImageStore.aliDomain + ossImageStore.profileCoverPrefix + userStore.profileCover;
@@ -81,6 +81,7 @@ const profileCover = computed(() => {
 const backgroundImage = computed(() => {
   return `background: url('${profileCover.value}') no-repeat center / cover;`
 })
+const imagePath = ref("heroimage.jpeg")
 // let file: any;
 
 // const fileInput = ref(null);
@@ -110,13 +111,14 @@ onBeforeMount(() => {
   if (route.query.username == null) {
     return
   }
-  axios.get(`/getprofile?username=${route.query.username}`).then(res => {
+  axios.get(`/get-profile?username=${route.query.username}`).then(res => {
     if (res.data.data === null)
       elMsg('user not exist', 'error');
     else {
       displayName.value = res.data.data.displayName
       username.value = res.data.data.username
       bio.value = res.data.data.bio
+      imagePath.value = res.data.data.userAvatar
       elMsg('find the user', 'success');
     }
   })

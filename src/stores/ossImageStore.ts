@@ -7,12 +7,23 @@ export const useOssImageStore = defineStore(
     const avatarPrefix = ref("avatars/")
     const profileCoverPrefix = ref("profile-bg-images/")
     const tweetImagePrefix = ref("tweet-images/")
+    const getAvatarUrl = (avatar: string) =>{
+      return aliDomain.value + avatarPrefix.value + avatar
+    }
+    const getProfileCoverUrl = (profileCover: string) =>{
+      return aliDomain.value + profileCoverPrefix.value + profileCover
+    }
+    const getTweetImageUrl = (tweetImage: string) =>{
+      return aliDomain.value + tweetImagePrefix.value + tweetImage
+    }
     return {
       aliDomain,
       avatarPrefix,
       profileCoverPrefix,
-      tweetImagePrefix
-
+      tweetImagePrefix,
+      getAvatarUrl,
+      getProfileCoverUrl,
+      getTweetImageUrl
     }
   },
   { // 使用默认持久化配置保存
