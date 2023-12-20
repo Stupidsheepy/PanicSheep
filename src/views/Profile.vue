@@ -3,12 +3,14 @@
     <!-- 上部分 -->
     <div class="profile-info" :style="backgroundImage">
       <!-- change background button -->
-      <button class="btn profile-bg-btn" @click="setProfileCover">
+      <div class="btn profile-bg-btn" @click="handleClick">
         设置背景图
-      </button>
+        <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage">
+      </div>
+      <button v-if="isUploadImage" class="btn profile-bg-btn btn-second" @click="toSetProfileCover">save?</button>
       <!-- <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage"> -->
       <!-- 头像 -->
-      <img :src="imagePath" class="avatar rotate-image">
+      <img :src="avatarUrl" class="avatar rotate-image">
       <!-- 用户信息 -->
       <div class="user-info">
         <div class="display-name">{{ displayName }}</div>
@@ -65,6 +67,8 @@
 import { useOssImageStore } from '../stores/ossImageStore';
 import { useUserStore } from '../stores/userStore';
 import { useRoute } from 'vue-router';
+import { setProfileCover } from '~/apis/OperateUserInfo'
+import { submitImage, UploadPath } from '~/apis/Upload'
 import axios from 'axios';
 const userStore = useUserStore();
 const ossImageStore = useOssImageStore();
@@ -72,16 +76,17 @@ const displayName = ref(userStore.displayName);
 const username = ref(userStore.username);
 const bio = ref(userStore.bio);
 const route = useRoute()
-
+const isUploadImage = ref(false)
 const activeTab = ref('tweet')
 // const profileCover = ref("profile_cover.jpg")
-const profileCover = computed(() => {
-  return ossImageStore.aliDomain + ossImageStore.profileCoverPrefix + userStore.profileCover;
-})
+
+const avatarUrl = ref("heroimage.jpeg")
+
+const imageUrl = ref(userStore.profileCover)
 const backgroundImage = computed(() => {
-  return `background: url('${profileCover.value}') no-repeat center / cover;`
+  return `background: url('${imageUrl.value !== 'profile_cover.png' ? (imageUrl.value.startsWith("data") ?
+    imageUrl.value : ossImageStore.getProfileCoverUrl(imageUrl.value)) : imageUrl.value}') no-repeat center / cover;`
 })
-const imagePath = ref("heroimage.jpeg")
 // let file: any;
 
 // const fileInput = ref(null);
@@ -101,9 +106,33 @@ const imagePath = ref("heroimage.jpeg")
 //     console.log("preview image: ", reader.result)
 //   }
 // }
-const setProfileCover = () => {
-  console.log("nihao")
+let file: any;
+
+const fileInput = ref(null);
+const handleClick = () => {
+  if (fileInput.value == null)
+    return;
+  (fileInput as any).value.click();
+};
+const previewImage = (event: any) => {
+  file = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    isUploadImage.value = true;
+    (imageUrl as any).value = reader.result;
+    console.log("preview image: ", reader.result)
+  }
 }
+const toSetProfileCover = async () => {
+  //  TODO
+  imageUrl.value = await submitImage(file, UploadPath.profile)
+  elMsg("success set profile cover", "success")
+  setProfileCover(imageUrl.value).then((res) => {
+    userStore.profileCover = imageUrl.value
+  })
+}
+
 
 onBeforeMount(() => {
   console.log("before mount")
@@ -118,7 +147,7 @@ onBeforeMount(() => {
       displayName.value = res.data.data.displayName
       username.value = res.data.data.username
       bio.value = res.data.data.bio
-      imagePath.value = res.data.data.userAvatar
+      avatarUrl.value = res.data.data.userAvatar
       elMsg('find the user', 'success');
     }
   })
@@ -240,5 +269,10 @@ button {
     background-color: #e8e8e8;
     color: #000;
   }
+}
+
+.btn-second {
+  top: 5rem;
+  right: 0.5rem;
 }
 </style>
