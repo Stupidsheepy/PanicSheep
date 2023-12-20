@@ -99,7 +99,9 @@ const previewImage = (event: any) => {
 // }
 const submitInfo = async () => {
   // 先传图片，再到这里请求
-  let profile_image_uuid = await submitImage(file, UploadPath.avatar)
+  let profile_image_uuid: string = userStore.avatar
+  if (isUploadImage.value)
+    profile_image_uuid = await submitImage(file, UploadPath.avatar)
   const optionsData = {
     "username": userName.value,
     "displayName": displayName.value,

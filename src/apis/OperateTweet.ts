@@ -14,5 +14,15 @@ const likeTweet = async (tweetUuid: string, username: string, type: boolean): Pr
     }
   })
 }
-
-export { likeTweet }
+const getAllTweets = (username: string, state : string) => {
+  return axios.get(`/get-all-tweets/${state}`, {
+    params: {
+      username: username
+    }
+  }).then((res) =>{
+    // tweetInfo List
+    console.log(res.data)
+    return res.data.data
+  })
+}
+export { likeTweet, getAllTweets }

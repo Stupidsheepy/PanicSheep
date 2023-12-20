@@ -51,9 +51,9 @@ const pressCopy = () => {
     sleep(500).then(() => {
       elMsg(`copy success: ${text.value}`, "success");
       icons.value.copy = 'i-mdi-content-copy'
-  })
+    })
 
-})
+  })
 }
 const pressThumbUp = async () => {
   sleep(500).then(() => {
@@ -150,9 +150,9 @@ const routerToProfile = () => {
 
       <div class="post-message-content">
         <p class="post-message-text">
-          <!-- {{ props.tweetDetails.tweetContent }} -->
+          {{ props.tweetDetails.tweetContent }}
         </p>
-        <div class="swiper-container">
+        <div class="swiper-container" v-if="tweetDetails.tweetImage.length">
           <el-carousel trigger="click" height="250px" :autoplay="true" :loop="true" indicator-position="outside">
             <el-carousel-item v-for="(item, index) in tweetImageUrl" :key="index">
               <img :src="item" alt="Post Image" class="full-width-height">

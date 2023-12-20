@@ -21,7 +21,7 @@
     </div>
     <div class="search-selected">
       <div class="search-content">
-        <div class="search-content__header">Search for: </div>
+        <!-- <div class="search-content__header">Search for: </div> -->
         <el-radio-group v-model="selectSearch" fill="#3b82f6" class="search-radios">
           <el-radio-button label="profile" size="large">profile</el-radio-button>
           <el-radio-button label="tweet" size="large">randTweet</el-radio-button>

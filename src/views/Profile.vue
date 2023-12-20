@@ -34,32 +34,14 @@
     <!-- 下部分 -->
     <div class="tab-bar">
       <!-- Tab 栏 -->
-      <button class="btn" @click="activeTab = 'tweet'" :class="{ activeTab: activeTab === 'tweet' }">tweets</button>
+      <button class="btn" @click="activeTab = 'tweets'" :class="{ activeTab: activeTab === 'tweets' }">tweets</button>
       <button @click="activeTab = 'likes'" class="btn" :class="{ activeTab: activeTab === 'likes' }">likes</button>
       <button @click="activeTab = 'comments'" class="btn"
         :class="{ activeTab: activeTab === 'comments' }">comments</button>
       <!-- 其他 Tab -->
     </div>
-
-    <div class="content">
-      <!-- 根据 Tab 栏的选择显示不同的内容 -->
-      <!-- 笔记内容 -->
-      <div v-if="activeTab === 'tweet'">
-        <!-- 笔记列表 -->
-      </div>
-
-      <!-- 赞过内容 -->
-      <div v-if="activeTab === 'likes'">
-        <!-- 赞过列表 -->
-      </div>
-
-      <!-- 评论内容 -->
-      <div v-if="activeTab === 'comments'">
-        <!-- 评论列表 -->
-      </div>
-    </div>
     <div class="active-container">
-
+      <ProfileContent :activeTab="activeTab"></ProfileContent>
     </div>
   </div>
 </template>
@@ -77,7 +59,7 @@ const username = ref(userStore.username);
 const bio = ref(userStore.bio);
 const route = useRoute()
 const isUploadImage = ref(false)
-const activeTab = ref('tweet')
+const activeTab = ref('tweets')
 // const profileCover = ref("profile_cover.jpg")
 
 const avatarUrl = ref("heroimage.jpeg")
@@ -127,6 +109,7 @@ const previewImage = (event: any) => {
 const toSetProfileCover = async () => {
   //  TODO
   imageUrl.value = await submitImage(file, UploadPath.profile)
+  isUploadImage.value = false
   elMsg("success set profile cover", "success")
   setProfileCover(imageUrl.value).then((res) => {
     userStore.profileCover = imageUrl.value
@@ -274,5 +257,9 @@ button {
 .btn-second {
   top: 5rem;
   right: 0.5rem;
+}
+
+.active-container {
+  margin-top: 1rem;
 }
 </style>

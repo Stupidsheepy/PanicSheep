@@ -21,6 +21,7 @@ declare module 'vue' {
     PostMessage: typeof import('./src/components/PostMessage.vue')['default']
     PostMessageSkeleton: typeof import('./src/components/PostMessageSkeleton.vue')['default']
     PostPanel: typeof import('./src/components/PostPanel.vue')['default']
+    ProfileContent: typeof import('./src/components/ProfileContent.vue')['default']
     PwdInputIcon: typeof import('./src/components/PwdInputIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
