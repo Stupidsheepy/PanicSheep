@@ -77,9 +77,12 @@ router.beforeEach(async (to, from, next) => {
           "Authorization": token
         }
       }).then(res => {
-        console.log(res.data)
-      }).catch(err => {
-        console.log(err)
+        console.log("token: ", res.data)
+        if (res.data.code !== 20000) {
+          userStore.userLogoutFunc()
+          elMsg('请先登录', 'error')
+          next({ name: 'home' })
+        }
       })
       next()
     }

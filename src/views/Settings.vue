@@ -37,7 +37,7 @@ import { UploadPath, submitImage } from '~/apis/Upload'
 // import elMsg from '~/composables/elMsg';
 import { useOssImageStore } from '../stores/ossImageStore'
 import { useUserStore } from '../stores/userStore'
-import type { UserProfile } from '../types/UserInfo'
+// import type { UserProfile } from '../types/UserInfo'
 const userStore = useUserStore()
 const ossImageStore = useOssImageStore()
 const { aliDomain, avatarPrefix } = storeToRefs(ossImageStore)
@@ -107,7 +107,7 @@ const submitInfo = async () => {
     "displayName": displayName.value,
     "password": password.value,
     "bio": bio.value,
-    "avatar": profile_image_uuid,
+    "userAvatar": profile_image_uuid,
     "profileCover": useUserStore().profileCover
   }
   console.log(displayName.value, userName.value, bio.value)

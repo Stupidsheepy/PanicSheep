@@ -62,8 +62,8 @@ const isUploadImage = ref(false)
 const activeTab = ref('tweets')
 // const profileCover = ref("profile_cover.jpg")
 
-const avatarUrl = ref("heroimage.jpeg")
-
+const avatarUrl = ref("")
+avatarUrl.value = ossImageStore.getAvatarUrl(userStore.avatar)
 const imageUrl = ref(userStore.profileCover)
 const backgroundImage = computed(() => {
   return `background: url('${imageUrl.value !== 'profile_cover.png' ? (imageUrl.value.startsWith("data") ?
@@ -127,10 +127,11 @@ onBeforeMount(() => {
     if (res.data.data === null)
       elMsg('user not exist', 'error');
     else {
+      console.log(res.data.data)
       displayName.value = res.data.data.displayName
       username.value = res.data.data.username
       bio.value = res.data.data.bio
-      avatarUrl.value = res.data.data.userAvatar
+      avatarUrl.value = ossImageStore.getAvatarUrl(res.data.data.userAvatar)
       elMsg('find the user', 'success');
     }
   })

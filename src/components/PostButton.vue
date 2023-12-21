@@ -8,6 +8,9 @@ function openPostPanel() {
 function closePostPanel() {
   isPressPost.value = false
 }
+const closePostPanelFromChild = (val: boolean) => {
+  isPressPost.value = val
+}
 const active = ref(true)
 const closeIcon = ref('i-carbon-close')
 watch(active, (newVal) => {
@@ -31,7 +34,7 @@ watch(active, (newVal) => {
         <div class="panelButton" :class="closeIcon" @click="closePostPanel" @mousemove="active = !active"
           @mouseleave="active = !active" />
       </div>
-      <PostPanel></PostPanel>
+      <PostPanel @closePanel="closePostPanelFromChild"></PostPanel>
     </div>
 
   </div>

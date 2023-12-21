@@ -3,12 +3,12 @@
   <div class="profile-content-container" v-if="tweetCards">
     <el-card :body-style="{ padding: '0px' }" v-for="(tweetInfo, index) in tweetCards" :key="index"
       class="profile-content-card">
+      <div class="i-mdi-close-circle delete-tweet-icon" @click="toDeleteTweet(tweetInfo.tweetUuid)"
+        v-if="state === 'tweets'"></div>
       <img :src="tweetImageUrl(tweetInfo.tweetImage)" class="tweet-image-style" />
       <div style="padding: 14px">
-        <span class="tweet-content">{{ tweetInfo.tweetContent }} Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Dolorem, quam,
-          praesentium neque doloremque reiciendis laborum minima qui tempore tenetur earum a repellendus eaque pariatur
-          quis provident vel tempora inventore cupiditate!</span>
+
+        <span class="tweet-content">{{ tweetInfo.tweetContent }} </span>
         <div class="bottom">
           <el-button text class="button" @click="goToTweet(tweetInfo.tweetUuid)">Go to Tweet</el-button>
           <span class="time">{{ tweetInfo.tweetCreatedAt }}</span>
@@ -23,6 +23,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { getAllTweets } from '~/apis/OperateTweet';
 import { useUserStore } from '~/stores/userStore';
 import { useOssImageStore } from '~/stores/ossImageStore';
+import { deleteTweet } from '~/apis/OperateTweet';
+import { ElMessageBox, ElMessage, ElLoading } from 'element-plus'
 interface TweetCard {
   tweetUuid: string
   tweetImage: string
@@ -34,7 +36,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 const username = ref("")
-const tweetCards = ref<TweetCard[]>()
+const tweetCards = ref<TweetCard[]>([])
 username.value = route.query.username ? route.query.username as string : userStore.username
 const props = defineProps({
   activeTab: {
@@ -46,8 +48,18 @@ const state = computed(() => {
   return props.activeTab
 })
 
+
+
+const createTweetCards = async (state: string) => {
+  const rawTweetCards: TweetCard[] = await getAllTweets(username.value, state);
+  tweetCards.value = rawTweetCards.map((item) => {
+    (item.tweetCreatedAt.indexOf("T") !== -1) ? item.tweetCreatedAt = item.tweetCreatedAt.split("T")[0] : item.tweetCreatedAt = item.tweetCreatedAt
+    return item
+  })
+  console.log(tweetCards.value)
+}
 watch(state, async (newVal) => {
-  tweetCards.value = await getAllTweets(username.value, newVal);
+  createTweetCards(newVal)
 })
 
 const tweetImageUrl = ((tweetImage: string) => {
@@ -64,10 +76,39 @@ const goToTweet = (tweetUuid: string) => {
     }
   })
 }
+const toDeleteTweet = async (tweetUuid: string) => {
+  ElMessageBox.confirm(
+    'Are your sure to delete your tweet?',
+    'Warning',
+    {
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+      await deleteTweet(tweetUuid, username.value)
+      tweetCards.value.forEach((item, index) => {
+        if (item.tweetUuid === tweetUuid) {
+          tweetCards.value?.splice(index, 1)
+        }
+      })
+      ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
+  // run
 
+}
 onBeforeMount(async () => {
-  tweetCards.value = await getAllTweets(username.value, state.value);
-  console.log(tweetCards.value)
+  createTweetCards(state.value)
 })
 </script>
 
@@ -85,6 +126,17 @@ onBeforeMount(async () => {
 
 .profile-content-card {
   flex: 0 0 24%;
+  position: relative;
+  height: 24rem;
+}
+
+.delete-tweet-icon {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  width: 3rem;
+  height: 3rem;
+  background-color: grey;
 }
 
 .bottom {

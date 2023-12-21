@@ -26,3 +26,8 @@ export enum PostTweetSize {
   MAX_SIZE = "62rem",
   MEDIUM_SIZE = '55rem'
 }
+
+export type HomeTweetListParams = {
+  tweetUuid: string,
+  username: string
+}

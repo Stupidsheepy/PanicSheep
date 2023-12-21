@@ -116,6 +116,18 @@ const routerToProfile = () => {
     }
   })
 }
+const imgPreviewList = ref<any>([])
+const showImagePreview = ref(false)
+
+const handlePreview = async () => {
+  showImagePreview.value = true
+  imgPreviewList.value = tweetImageUrl.value
+}
+
+const closePreview = () => {
+  imgPreviewList.value = []
+  showImagePreview.value = false
+}
 </script>
 
 <template>
@@ -152,13 +164,16 @@ const routerToProfile = () => {
         <p class="post-message-text">
           {{ props.tweetDetails.tweetContent }}
         </p>
+        <!-- 添加图片放大的预览 -->
         <div class="swiper-container" v-if="tweetDetails.tweetImage.length">
           <el-carousel trigger="click" height="250px" :autoplay="true" :loop="true" indicator-position="outside">
             <el-carousel-item v-for="(item, index) in tweetImageUrl" :key="index">
-              <img :src="item" alt="Post Image" class="full-width-height">
+              <img :src="item" alt="Post Image" class="full-width-height" @click="handlePreview" />
             </el-carousel-item>
           </el-carousel>
         </div>
+        <!-- 图片预览 -->
+        <el-image-viewer v-if="showImagePreview" :zoom-rate="1.2" @close="closePreview" :url-list="imgPreviewList" />
         <!-- <el-carousel :loop="false" height="300px">
           <el-carousel-item v-for="(item, index) in props.tweetDetails.tweetImage" :key="index">
             <img class="post-message-image" :src="'/' + item" alt="Post Image"> </el-carousel-item>
@@ -316,6 +331,11 @@ const routerToProfile = () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.swiper-container:hover {
+  cursor: pointer;
+  border: 2px solid pink;
+}
+
 .el-carousel__item h3 {
   display: flex;
   color: #475669;
@@ -340,6 +360,7 @@ const routerToProfile = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .full-width-height {

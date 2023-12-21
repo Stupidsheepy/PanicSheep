@@ -63,7 +63,7 @@ export const useUserStore = defineStore(
             displayName.value = User.displayName
             bio.value = User.bio
             password.value = User.password
-            avatar.value = User.avatar
+            avatar.value = User.userAvatar
         }
         return {
             avatar,
