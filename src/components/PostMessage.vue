@@ -273,6 +273,10 @@ const closePreview = () => {
   font-size: 1.2rem;
   line-height: 1.5;
   font-weight: 600;
+  width: 500px;
+  word-break: break-all;
+  text-align: left;
+  text-indent: 2em;
 }
 
 .post-message-image {

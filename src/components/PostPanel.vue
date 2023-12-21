@@ -131,6 +131,10 @@ const startLoading = () => {
   })
 }
 
+const endLoading = () => {
+  loading.close()
+}
+
 const submitTweet = async () => {
 
   const tweetImageUUIDPromise: Promise<string[]> = files.map(async (file) => {
@@ -161,7 +165,7 @@ const submitTweet = async () => {
 
       // 关闭Loading
       // loadingInstance.close()
-      loading.close()
+      endLoading()
       elMsg('tweet success', 'success')
       emits('closePanel', false)
       router.push({

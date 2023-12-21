@@ -41,6 +41,7 @@
 <script setup lang='ts'>
 import axios from 'axios';
 import { useUserStore } from '../stores/userStore'
+import { ElLoading } from 'element-plus'
 interface optionsRef {
   [key: string]: string
 }
@@ -92,10 +93,27 @@ const createOptions = (isEmailCodeSignIn: boolean): optionsRef => {
     }
   }
 }
+let loading: any
+const startLoading = () => {
+  // Loading.service(options); options 参数为 Loading 的配置项
+  // 使用loading变量来接收Loading.service返回的实例
+
+  loading = ElLoading.service({
+    lock: true,
+    text: 'Loading for the submission',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
+}
+
+const endLoading = () => {
+  loading.close()
+}
 const toLogin = async () => {
+  startLoading()
   options.value = createOptions(isEmailCodeSignIn.value) as optionsRef
   await axios.post(pathUrl.value, options.value)
     .then(res => {
+      endLoading()
       console.log(res.data.data)
       const userInfo = res.data.data
       console.log(userInfo);

@@ -43,6 +43,7 @@ import axios from 'axios';
 // import type { UserInfo } from '~/types/UserInfo';
 // import elMsg from ''
 import { useUserStore } from '../stores/userStore'
+import { ElLoading } from 'element-plus'
 const isPressSignUpBtn = ref(false)
 const username = ref('')
 const userPassword = ref('')
@@ -51,17 +52,34 @@ const userCode = ref('')
 const isGetCode = ref(false)
 const isCorrectCode = ref(false)
 const userStore = useUserStore()
+let loading: any
+const startLoading = () => {
+  // Loading.service(options); options 参数为 Loading 的配置项
+  // 使用loading变量来接收Loading.service返回的实例
+
+  loading = ElLoading.service({
+    lock: true,
+    text: 'Loading for the submission',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
+}
+
+const endLoading = () => {
+  loading.close()
+}
 function openregisterPanel() {
   // console.log('register panel')
   isPressSignUpBtn.value = true
 }
 
 const getCode = () => {
+  startLoading()
   axios.get('/getcode', {
     params: {
       email: userEmail.value
     }
   }).then(res => {
+    endLoading()
     console.log(res.data)
     isGetCode.value = true
     elMsg('success to get code', 'success')
@@ -71,10 +89,12 @@ const getCode = () => {
   })
 }
 const verifyCode = async () => {
+  startLoading()
   await axios.post('/verifycode', {
     email: userEmail.value,
     code: userCode.value
   }).then(res => {
+    endLoading()
     console.log(res.data)
     elMsg('success to verify code', 'success')
     //刷新界面：
@@ -86,6 +106,7 @@ const verifyCode = async () => {
   })
 }
 const setUsernameAndPassword = async () => {
+  startLoading()
   axios.get('/set-username-and-password', {
     params: {
       username: username.value,
@@ -93,6 +114,7 @@ const setUsernameAndPassword = async () => {
       email: userEmail.value,
     }
   }).then(async (res) => {
+    endLoading()
     console.log(res.data)
     let useInfo = await axios.post("/login", {
       username: username.value,
