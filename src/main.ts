@@ -47,7 +47,7 @@ const { isLogin } = storeToRefs(userStore)
 
 router.beforeEach(async (to, from, next) => {
   // api.defaults.baseURL = 'https://localhost:8887'; // 更新基础 URL
-  axios.defaults.baseURL = 'http://localhost:8887'; // 设置 baseURL
+  axios.defaults.baseURL = 'http://47.115.227.176:6502'; // 设置 baseURL
   const whiteList = [
     "home", "explore", 'tweet'
   ]
