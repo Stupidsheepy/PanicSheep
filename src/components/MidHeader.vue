@@ -56,5 +56,7 @@ const route = useRoute()
   font-weight: 700;
   user-select: none;
   text-transform: capitalize;
+  background-color: #f7f7f7;
+  color: black;
 }
 </style>

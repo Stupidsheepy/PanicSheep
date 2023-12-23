@@ -87,6 +87,16 @@ const router = createRouter({
         logoutnav: () => import('~/views/LogoutNav.vue'),
         viploginnav: () => import('~/views/VipLoginNav.vue')
       },
+    }, {
+      //TODO /search
+      path: '/search',
+      name: 'search',
+      components: {
+        default: () => import('~/views/Search.vue'),
+        loginnav: () => import('~/views/LoginNav.vue'),
+        logoutnav: () => import('~/views/LogoutNav.vue'),
+        viploginnav: () => import('~/views/VipLoginNav.vue')
+      },
     },
     // {
     //   path: "/login",

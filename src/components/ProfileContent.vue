@@ -1,10 +1,11 @@
 <template>
   <!-- {{ props.activeTab }} -->
-  <div class="profile-content-container" v-if="tweetCards">
+  <div class="profile-content-container" v-if="tweetCards" ref="profileContent">
     <el-card :body-style="{ padding: '0px' }" v-for="(tweetInfo, index) in tweetCards" :key="index"
       class="profile-content-card">
       <div class="i-mdi-close-circle delete-tweet-icon" @click="toDeleteTweet(tweetInfo.tweetUuid)"
-        v-if="state === 'tweets'"></div>
+        v-if="state === 'tweets' && (!route.query.username || route.query.username === userStore.username.toLowerCase())">
+      </div>
       <img :src="tweetImageUrl(tweetInfo.tweetImage)" class="tweet-image-style" />
       <div style="padding: 14px">
 
@@ -25,6 +26,7 @@ import { useUserStore } from '~/stores/userStore';
 import { useOssImageStore } from '~/stores/ossImageStore';
 import { deleteTweet } from '~/apis/OperateTweet';
 import { ElMessageBox, ElMessage, ElLoading } from 'element-plus'
+import { sleep } from '~/utils/SetDelay'
 interface TweetCard {
   tweetUuid: string
   tweetImage: string
@@ -37,6 +39,7 @@ const router = useRouter()
 const route = useRoute()
 const username = ref("")
 const tweetCards = ref<TweetCard[]>([])
+const profileContent = ref<HTMLElement>()
 username.value = route.query.username ? route.query.username as string : userStore.username
 const props = defineProps({
   activeTab: {
@@ -47,15 +50,33 @@ const props = defineProps({
 const state = computed(() => {
   return props.activeTab
 })
+let loading: any
+const startLoading = () => {
+  // Loading.service(options); options 参数为 Loading 的配置项
+  // 使用loading变量来接收Loading.service返回的实例
 
+  loading = ElLoading.service({
+    target: profileContent.value,
+    lock: true,
+    text: 'Loading for getting tweets',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+}
 
+const endLoading = async () => {
+  await sleep(400)
+  loading.close()
+}
 
 const createTweetCards = async (state: string) => {
+  startLoading()
   const rawTweetCards: TweetCard[] = await getAllTweets(username.value, state);
   tweetCards.value = rawTweetCards.map((item) => {
     (item.tweetCreatedAt.indexOf("T") !== -1) ? item.tweetCreatedAt = item.tweetCreatedAt.split("T")[0] : item.tweetCreatedAt = item.tweetCreatedAt
     return item
   })
+
+  endLoading()
   console.log(tweetCards.value)
 }
 watch(state, async (newVal) => {
@@ -163,7 +184,7 @@ onBeforeMount(async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  height: auto;
+  height: 3.5rem;
   word-break: break-all;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

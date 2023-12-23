@@ -18,6 +18,7 @@
         <PostMessage :tweetDetails="tweetDetails" :widthSize="PostTweetSize.MEDIUM_SIZE"></PostMessage>
       </div>
     </Suspense>
+    <EmptyPlace v-if="userStore.username === ''"></EmptyPlace>
   </div>
 </template>
 <script setup lang='ts'>
@@ -34,6 +35,13 @@ watch(sortWith, (newVal) => {
   console.log(newVal)
   console.log(tweetList.value)
 })
+const usernameStore = computed(() => {
+
+  return userStore.username
+})
+watch(usernameStore, (newVal) => {
+  getAllTweets(sortWith.value)
+})
 // const username = userStore.username
 console.log(route.params)
 // const details = await getTweetDetails(username, route.params.tweetId as string)
@@ -47,14 +55,21 @@ const getAllTweets = async (type: string) => {
   tweetList.value = []
   const homeTweetListParams: HomeTweetListParams[] = await getHomeTweet(type)
   homeTweetListParams.forEach(async (item) => {
-    const details: TweetDetails = await getTweetDetails(item.username, item.tweetUuid)
+    const details: TweetDetails = await getTweetDetails(userStore.username, item.tweetUuid)
     // 切换得先把其他都remove掉
     tweetList.value?.push(details)
   })
+  tweetList.value = tweetList.value.sort((a, b) => {
+    return b.createdAt.localeCompare(a.createdAt)
+  })
+  console.log(tweetList)
 }
 onMounted(async () => {
-  getAllTweets(sortWith.value)
+  if (userStore.username !== '' || userStore.username !== null) {
+    getAllTweets(sortWith.value)
+  }
 })
+console.log()
 </script>
 <style lang='scss' scoped>
 @import '~/styles/variables';
@@ -67,7 +82,7 @@ onMounted(async () => {
 .switch-sort-btn {
   position: absolute;
   top: 0;
-  right: -4rem;
+  right: -12rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,10 +90,6 @@ onMounted(async () => {
 
 .search-radios {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1rem;
 }
 
 .tweet-list-enter-active,

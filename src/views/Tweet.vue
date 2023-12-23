@@ -16,10 +16,10 @@
 import { PostTweetSize } from '~/types/TweetInfo'
 import { getTweetDetails } from '~/apis/TweetApi'
 import type { TweetDetails } from '~/types/TweetInfo'
-// import { useUserStore } from '~/stores/userStore'
+import { useUserStore } from '~/stores/userStore'
 import { useRoute } from 'vue-router'
 const route = useRoute()
-// const userStore = useUserStore()
+const userStore = useUserStore()
 // const username = userStore.username
 console.log(route.params)
 // const details = await getTweetDetails(username, route.params.tweetId as string)
@@ -29,12 +29,12 @@ const routeParams = computed(() => {
   return route.params
 })
 watch(routeParams, async (newVal) => {
-  const details = await getTweetDetails(routeParams.value.username as string, routeParams.value.tweetId as string)
+  const details = await getTweetDetails(userStore.username, routeParams.value.tweetId as string)
   tweetDetails.value = details
 })
 onBeforeMount(async () => {
   try {
-    const details = await getTweetDetails(routeParams.value.username as string, routeParams.value.tweetId as string)
+    const details = await getTweetDetails(userStore.username, routeParams.value.tweetId as string)
     tweetDetails.value = details
   } catch (error) {
     console.error(error)

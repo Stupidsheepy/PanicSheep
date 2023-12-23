@@ -12,7 +12,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
-        <input :placeholder="`enter the username`" class="explore-input-field" v-model="searchText"
+        <input :placeholder="explorePlaceholder" class="explore-input-field" v-model="searchText"
           @keydown.enter="toSearch">
       </div>
       <button class="explore-button" @click="toSearch">
@@ -23,8 +23,9 @@
       <div class="search-content">
         <!-- <div class="search-content__header">Search for: </div> -->
         <el-radio-group v-model="selectSearch" fill="#3b82f6" class="search-radios">
-          <el-radio-button label="profile" size="large">profile</el-radio-button>
-          <el-radio-button label="tweet" size="large">randTweet</el-radio-button>
+          <el-radio-button label="profile" size="large" @click="changeToProfile">Profile</el-radio-button>
+          <el-radio-button label="tweet" size="large" @click="changeToProfile">Random Tweet</el-radio-button>
+          <el-radio-button label="content" size="large" @click="changeToTweet">Tweet Content</el-radio-button>
         </el-radio-group>
       </div>
     </div>
@@ -35,11 +36,18 @@ import RandomTweet from '~/utils/RandomTweet'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const searchText = ref("")
-const selectSearch = ref("profile")
+const selectSearch = ref("content")
+const explorePlaceholder = ref('enter the tweet content')
+const changeToTweet = () => {
+  explorePlaceholder.value = 'enter the tweet content'
+}
+const changeToProfile = () => {
+  explorePlaceholder.value = 'enter the username'
+}
 const toSearch = async () => {
   if (selectSearch.value === "profile") {
     router.push({ name: "profile", query: { username: searchText.value } })
-  } else {
+  } else if (selectSearch.value === "tweet") {
     const tweetId: string = await RandomTweet(searchText.value).then((res: any) => res.data).then((res: any) => res.data)
     console.log(tweetId)
     router.push({
@@ -47,6 +55,13 @@ const toSearch = async () => {
       params: {
         tweetId: tweetId,
         username: searchText.value
+      }
+    })
+  } else if (selectSearch.value === "content") {
+    router.push({
+      name: "search",
+      query: {
+        content: searchText.value
       }
     })
   }

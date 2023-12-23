@@ -23,7 +23,7 @@
             </div>
             <div class="login-content__item">
               <PwdInputIcon :placeholder="passwordPlaceholder" :pwdInputTitle="pwdInputTitle"
-                :isPasswordIcon="!isEmailCodeSignIn" ref="pwdInput"></PwdInputIcon>
+                :isPasswordIcon="!isEmailCodeSignIn" ref="pwdInput" @keydown.enter="toLogin"></PwdInputIcon>
             </div>
           </div>
 
@@ -109,6 +109,10 @@ const endLoading = () => {
   loading.close()
 }
 const toLogin = async () => {
+  if (!textInput.value.username || !pwdInput.value.password) {
+    elMsg('please enter username and password', 'error')
+    return
+  }
   startLoading()
   options.value = createOptions(isEmailCodeSignIn.value) as optionsRef
   await axios.post(pathUrl.value, options.value)

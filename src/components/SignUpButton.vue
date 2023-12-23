@@ -13,17 +13,18 @@
         </div>
         <div class="register-content" v-if="!isGetCode && !isCorrectCode">
           <div class="register-content__item"><span> Email: </span><input type="email" name="email" class="register-input"
-              v-model="userEmail" /></div>
+              v-model="userEmail" @keydown.enter="getCode" /></div>
         </div>
         <div class="register-content" v-else-if="isGetCode && !isCorrectCode">
           <div class="register-content__item"><span> Code: </span><input type="text" name="code" class="register-input"
-              v-model="userCode" /></div>
+              v-model="userCode" @keydown.enter="verifyCode" /></div>
         </div>
         <div class="register-content" v-else>
           <div class="register-content__item"><span> Username:</span><input type="text" name="username"
               class="register-input" v-model="username" /></div>
           <div class="register-content__item">
-            <span> Password:</span><input type="text" name="password" class="register-input" v-model="userPassword" />
+            <span> Password:</span><input type="text" name="password" class="register-input" v-model="userPassword"
+            @keydown.enter="setUsernameAndPassword" />
           </div>
         </div>
         <div class="btn register-button" @click="getCode" v-if="!isGetCode && !isCorrectCode">Submit Email</div>
@@ -106,6 +107,10 @@ const verifyCode = async () => {
   })
 }
 const setUsernameAndPassword = async () => {
+  if (!username.value || !userPassword.value || !userEmail.value) {
+    elMsg('please enter username and password and email', 'error')
+    return
+  }
   startLoading()
   axios.get('/set-username-and-password', {
     params: {

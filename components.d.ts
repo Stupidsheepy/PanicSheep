@@ -11,6 +11,7 @@ declare module 'vue' {
     Comment: typeof import('./src/components/Comment.vue')['default']
     Container: typeof import('./src/components/Container.vue')['default']
     DeleteUserBtn: typeof import('./src/components/DeleteUserBtn.vue')['default']
+    EmptyPlace: typeof import('./src/components/EmptyPlace.vue')['default']
     EmptyPost: typeof import('./src/components/EmptyPost.vue')['default']
     ImageScale: typeof import('./src/components/ImageScale.vue')['default']
     LilProfileBtn: typeof import('./src/components/LilProfileBtn.vue')['default']

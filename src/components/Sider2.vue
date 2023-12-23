@@ -5,14 +5,24 @@
             <div class="i-mdi-weather-sunny" v-if="!isDark"></div>
         </button> -->
     <div class="sider-content-01" style="font-size:1.4rem;">
-      <h2 >Account For Test: </h2>
+      <h2>Account For Test: </h2>
+      <div>------------------------</div>
       <div class="username-content">
-        <span>Username:</span>
+        <span>Username1: </span>
         <span>sheepy</span>
       </div>
       <div class="password-content">
-        <span>Password:</span>
+        <span>Password1: </span>
         <span>114514</span>
+      </div>
+      <div>------------------------</div>
+      <div class="username-content">
+        <span>Username2: </span>
+        <span>Stupidsheep</span>
+      </div>
+      <div class="password-content">
+        <span>Password2: </span>
+        <span>nihao</span>
       </div>
     </div>
     <!-- <button @click="userStore.userLogoutFunc" class="btn">Logout</button> -->
@@ -39,7 +49,7 @@
   width: $sider-width;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -53,5 +63,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 </style>

@@ -16,7 +16,7 @@
     <input type="text" name="displayname" v-model="displayName" required>
     <div class="content-desc">Username : </div>
     <input type="text" name="username" v-model="userName" autocomplete="off" required disabled
-      style="background-color:#e8e8e8;">
+      style="background-color:#e8e8e8; color: black;">
     <!-- <PwdInputIcon :placeholder="`enter your password...`"></PwdInputIcon> -->
     <div class="content-desc">Password : </div>
     <div class="pwd-input">

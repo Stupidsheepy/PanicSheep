@@ -22,3 +22,15 @@ export const getHomeTweet = (type: string): Promise<HomeTweetListParams[]> => {
     return response.data.data
   })
 }
+
+export const searchTweetContent = (content : string) : Promise<HomeTweetListParams[]> => {
+  return axios.get('/search-tweet-content', {
+    params: {
+      content: content
+    }
+  }).then(response => {
+    console.log(response.data)
+    // data给出Home
+    return response.data.data
+  })
+}

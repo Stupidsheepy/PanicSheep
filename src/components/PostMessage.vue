@@ -5,11 +5,23 @@ import { sleep } from '~/utils/SetDelay';
 import { likeTweet } from '~/apis/OperateTweet';
 import { useUserStore } from '~/stores/userStore';
 import { useOssImageStore } from '~/stores/ossImageStore';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 const { text, copy } = useClipboard()
 const ossImageStore = useOssImageStore()
 const userLikeState = ref(0)
+const isPostMessageWrapper = ref()
+isPostMessageWrapper.value = route.name === 'tweet' ? "" : "post-message-wrapper"
+const routeName = computed(() => {
+  return route.name as string
+})
+watch(routeName, (newVal) => {
+  if (newVal === 'tweet')
+    isPostMessageWrapper.value = ""
+  else
+    isPostMessageWrapper.value = "post-message-wrapper"
+})
 const props = defineProps({
   tweetDetails: {
     // ????
@@ -46,8 +58,10 @@ const iconIsClick = ref({
 const pressCopy = () => {
   sleep(500).then(() => {
     icons.value.copy = 'i-mdi-check'
-    const fullUrl = window.location.href;
-    copy(fullUrl)
+    // 复制tweet链接：
+    // const fullUrl = window.location.href;
+    const bathUrl = window.location.origin + '/user/' + props.tweetDetails.username + '/tweet/' + props.tweetDetails.tweetUuid
+    copy(bathUrl)
     sleep(500).then(() => {
       elMsg(`copy success: ${text.value}`, "success");
       icons.value.copy = 'i-mdi-content-copy'
@@ -63,6 +77,7 @@ const pressThumbUp = async () => {
     else
       userLikeState.value = -1
     props.tweetDetails.likeCount += userLikeState.value
+    // 点赞的是登录的人
     likeTweet(props.tweetDetails.tweetUuid, useUserStore().username, props.tweetDetails.isLiked).then((res: any) => {
       console.log(res.data.data)
       if (res.data.code === 200)
@@ -108,10 +123,10 @@ function toggleButtons(buttonName: string) {
       break
   }
 }
-const routerToProfile = () => {
+const goToProfile = () => {
   router.push({
     name: 'profile',
-    params: {
+    query: {
       username: props.tweetDetails.username
     }
   })
@@ -128,15 +143,24 @@ const closePreview = () => {
   imgPreviewList.value = []
   showImagePreview.value = false
 }
+const goToTweet = () => {
+  router.push({
+    name: 'tweet',
+    params: {
+      username: props.tweetDetails.username,
+      tweetId: props.tweetDetails.tweetUuid
+    }
+  })
+}
 </script>
 
 <template>
   <div class="wrapper" v-if="props.tweetDetails">
-    <div class="post-message">
+    <div class="post-message" :class="isPostMessageWrapper" @click="goToTweet">
       <div class="post-message-header">
 
         <div class="post-message-header-avatar-info">
-          <img class="post-message-avatar" :src="avatarUrl" alt="Avatar" @click="routerToProfile">
+          <img class="post-message-avatar" :src="avatarUrl" alt="Avatar" @click.stop="goToProfile">
           <div class="post-message-user">
             <h3 class="post-message-display-name">
               {{ props.tweetDetails.displayName }}
@@ -149,7 +173,8 @@ const closePreview = () => {
         <el-popover placement="bottom" :width="50" trigger="click">
           <template #reference>
             <button class="post-message-action-button" :title="`copy the full url to your clipboard`">
-              <div :class="icons.threeDot" class="post-message-action-button__icon" @click="toggleButtons('threeDot')" />
+              <div :class="icons.threeDot" class="post-message-action-button__icon"
+                @click.stop="toggleButtons('threeDot')" />
             </button>
           </template> <template #default>
             <div class="wrapper"><button class="btn three-dot-btn">Block User</button></div>
@@ -168,7 +193,7 @@ const closePreview = () => {
         <div class="swiper-container" v-if="tweetDetails.tweetImage.length">
           <el-carousel trigger="click" height="250px" :autoplay="true" :loop="true" indicator-position="outside">
             <el-carousel-item v-for="(item, index) in tweetImageUrl" :key="index">
-              <img :src="item" alt="Post Image" class="full-width-height" @click="handlePreview" />
+              <img :src="item" alt="Post Image" class="full-width-height" @click.stop="handlePreview" />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -185,26 +210,25 @@ const closePreview = () => {
         </p>
         <div class="post-message-actions">
           <button class="post-message-action-button" :title="`copy the full url to your clipboard`">
-            <div :class="icons.copy" class="post-message-action-button__icon" @click="toggleButtons('copy')" />
+            <div :class="icons.copy" class="post-message-action-button__icon" @click.stop="toggleButtons('copy')" />
           </button>
           <button class="post-message-action-button">
             <div :class="[props.tweetDetails.isLiked ? icons.thumbedUp : icons.thumbUp,]"
-              class="post-message-action-button__icon" @click="toggleButtons('thumbUp')" />
+              class="post-message-action-button__icon" @click.stop="toggleButtons('thumbUp')" />
             <span class="post-message-action-count">{{ props.tweetDetails.likeCount }}</span>
           </button>
           <button class="post-message-action-button">
-            <div :class="icons.reply" class="post-message-action-button__icon" @click="toggleButtons('reply')" />
+            <div :class="icons.reply" class="post-message-action-button__icon" @click.stop="toggleButtons('reply')" />
             <span class="post-message-action-count">5</span>
           </button>
           <button class="post-message-action-button">
-            <div :class="icons.comment" class="post-message-action-button__icon" @click="toggleButtons('comment')" />
+            <div :class="icons.comment" class="post-message-action-button__icon" @click.stop="toggleButtons('comment')" />
             <span class="post-message-action-count">2</span>
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="wrapper" v-else>Loading for users' data</div>
 </template>
 
 <style scoped lang="scss">
@@ -357,7 +381,6 @@ const closePreview = () => {
 }
 
 
-
 .wrapper {
   width: 100%;
   height: 100%;
@@ -365,6 +388,11 @@ const closePreview = () => {
   justify-content: center;
   align-items: center;
   margin-bottom: 2rem;
+}
+
+.post-message-wrapper:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .full-width-height {

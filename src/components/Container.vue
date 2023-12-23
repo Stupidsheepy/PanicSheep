@@ -25,7 +25,7 @@
         </div>
         <!-- remove sider component -->
         <div class="main-right" v-if="isDesktop && showSiderStore.isShowSider">
-            <Sider class="sider-top"></Sider>
+            <!-- <Sider class="sider-top"></Sider> -->
             <Sider2 class="side-bottom"></Sider2>
         </div>
     </main>
@@ -46,7 +46,7 @@ import { useShowSiderStore } from '~/stores/showSiderStore';
 import { storeToRefs } from 'pinia';
 const userStore = useUserStore()
 const showSiderStore = useShowSiderStore()
-// isLogin 使用storeToRefs转换为响应式数据  
+// isLogin 使用storeToRefs转换为响应式数据
 const { isLogin } = storeToRefs(userStore)
 const loginOrLogoutNav = ref()
 loginOrLogoutNav.value = isLogin.value ? "loginnav" : "logoutnav"

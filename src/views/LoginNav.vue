@@ -22,7 +22,7 @@
         </template>
         <div class="nav-profile-panel">
           <div class="header">Setting</div>
-          <button @click="router.push('/profile')" class="btn">MyPage</button>
+          <button @click="router.push('/profile')" class="btn">Profile</button>
 
           <button @click="userStore.userLogoutFunc" class="btn">Logout</button>
           <!-- not delete -->

@@ -3,7 +3,8 @@
     <!-- 上部分 -->
     <div class="profile-info" :style="backgroundImage">
       <!-- change background button -->
-      <div class="btn profile-bg-btn" @click="handleClick">
+      <div class="btn profile-bg-btn" @click="handleClick"
+        v-if="!route.query.username || route.query.username === userStore.username">
         设置背景图
         <input type="file" name="file" accept="image/*" ref="fileInput" style="display: none;" @change="previewImage">
       </div>
@@ -34,9 +35,11 @@
     <!-- 下部分 -->
     <div class="tab-bar">
       <!-- Tab 栏 -->
-      <button class="btn" @click="activeTab = 'tweets'" :class="{ activeTab: activeTab === 'tweets' }">tweets</button>
-      <button @click="activeTab = 'likes'" class="btn" :class="{ activeTab: activeTab === 'likes' }">likes</button>
-      <button @click="activeTab = 'comments'" class="btn"
+      <button class="btn" @click="debouncedToggleTab('tweets')"
+        :class="{ activeTab: activeTab === 'tweets' }">tweets</button>
+      <button class="btn" @click="debouncedToggleTab('likes')"
+        :class="{ activeTab: activeTab === 'likes' }">likes</button>
+      <button class="btn" @click="debouncedToggleTab('comments')"
         :class="{ activeTab: activeTab === 'comments' }">comments</button>
       <!-- 其他 Tab -->
     </div>
@@ -51,6 +54,7 @@ import { useUserStore } from '../stores/userStore';
 import { useRoute } from 'vue-router';
 import { setProfileCover } from '~/apis/OperateUserInfo'
 import { submitImage, UploadPath } from '~/apis/Upload'
+import { debounce } from 'lodash'
 import axios from 'axios';
 const userStore = useUserStore();
 const ossImageStore = useOssImageStore();
@@ -61,6 +65,12 @@ const route = useRoute()
 const isUploadImage = ref(false)
 const activeTab = ref('tweets')
 // const profileCover = ref("profile_cover.jpg")
+const toggleTab = (tab: any) => {
+  // 处理按钮点击事件的逻辑
+  activeTab.value = tab;
+};
+
+const debouncedToggleTab = debounce(toggleTab, 200);
 
 const avatarUrl = ref("")
 avatarUrl.value = ossImageStore.getAvatarUrl(userStore.avatar)
